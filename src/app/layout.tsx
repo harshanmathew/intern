@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { ReduxProvider } from '@/redux/redux-provider';
 import MainLayout from '@/components/layouts/main-layout';
 
-const inter = Inter({ subsets: ['latin'] });
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Sharbi Fun',
@@ -18,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className + ' dark'}>
+      <body className={ibmPlexMono.className + ' dark'}>
         <ReduxProvider>
           <MainLayout>{children}</MainLayout>
         </ReduxProvider>
