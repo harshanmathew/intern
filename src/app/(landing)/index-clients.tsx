@@ -2,6 +2,7 @@
 import React from 'react';
 import TrendingProjectsCarousel from './trending-projects-carousel';
 import ProjectDetailCard from './project-detail-card';
+import HighlightsBar from './highlights-bar';
 
 const projectDetails: ProjectDetailCardType[] = [
   {
@@ -56,10 +57,11 @@ const extendedProjectDetails = [...Array(20)].map(
 
 const HomeIndexClients = () => {
   return (
-    <div className='pt-8'>
+    <div className='pt-14'>
       <h1>Top Trending Project</h1>
       <TrendingProjectsCarousel />
-      <section className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-[30px] place-items-center'>
+      <HighlightsBar />
+      <section className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-[30px] place-items-center justify-content-center place-content-center'>
         {extendedProjectDetails.map((item, index) => (
           <ProjectDetailCard
             createdBy={item.createdBy}

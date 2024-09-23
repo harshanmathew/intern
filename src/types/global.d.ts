@@ -21,3 +21,11 @@ type ProjectDetailCardType = {
     percent: number;
   };
 };
+
+type HighlightItemType = {
+  transaction: 'Bought' | 'Sold';
+  createdBy: string;
+  counts: number;
+  token: string;
+  imgUrl: string;
+};
