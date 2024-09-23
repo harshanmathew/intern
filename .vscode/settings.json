@@ -1,13 +1,23 @@
 {
   "editor.formatOnSave": true,
-  "editor defaultFormatter": "esbenp-prettier-vscode",
-  "git.enableSmartcommit": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.sortMembers": "explicit",
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // vscode.typescript-language-features
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
+  "prettier.singleQuote": true,
+  "prettier.jsxSingleQuote": true,
 
   "cSpell.enabled": true,
   "cSpell.logLevel": "Debug",
@@ -23,12 +33,8 @@
     "Giftcard",
     "giftcards",
     "mailgun",
-    "Subdocument"
+    "Subdocument",
+    "turso"
   ],
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnType": false,
-  "editor.formatOnPaste": true
+  "notebook.formatOnSave.enabled": false
 }
