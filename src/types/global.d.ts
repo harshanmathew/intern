@@ -29,3 +29,14 @@ type HighlightItemType = {
   token: string;
   imgUrl: string;
 };
+
+type BackHomeNavbarType = {
+  navLink?: string;
+  children?: React.ReactNode;
+};
+
+type TokenDetailBoxType = {
+  title: string;
+  value: string;
+  isHighlight?: boolean;
+};
