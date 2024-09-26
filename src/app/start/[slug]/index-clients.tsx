@@ -3,6 +3,8 @@ import BackHomeNavbar from '@/components/atoms/back-home-navbar';
 import React from 'react';
 import TokenDetailsBanner from './token-details-banner';
 import { Button } from '@/components/ui/button';
+import TradeNowComponent from './trade-now-component';
+import TradingHistory from './trading-history';
 
 const IndexClientsTokenPage = () => {
   return (
@@ -43,6 +45,10 @@ const IndexClientsTokenPage = () => {
           },
         ]}
       />
+      <div className='grid grid-cols-[auto_auto] place-items-center gap-x-5 mt-5 pb-[70vh]'>
+        <TradingHistory />
+        <TradeNowComponent />
+      </div>
     </div>
   );
 };
