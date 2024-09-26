@@ -1,1 +1,1 @@
-Out of the Box Next.js Template
+Sharbi Fun
