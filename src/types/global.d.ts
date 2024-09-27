@@ -40,3 +40,19 @@ type TokenDetailBoxType = {
   value: string;
   isHighlight?: boolean;
 };
+
+type InputTypes = React.InputHTMLAttributes<HTMLInputElement> & {
+  inputClass?: string;
+  rootClass?: string;
+  labelIcon?: React.ReactNode;
+  labelClass?: string;
+  label?: string;
+  required?: boolean;
+  maxCharAllowed?: number;
+};
+
+type TextAreaTypes = Omit<
+  InputTypes,
+  React.InputHTMLAttributes<HTMLInputElement>
+> &
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>;

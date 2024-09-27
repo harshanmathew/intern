@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import Logo from '@/public/svg/logo.svg';
+import Logo from '@/public/svg/logo.svg?url';
 import NavLink from '../atoms/nav-link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
