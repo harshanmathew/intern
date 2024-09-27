@@ -20,6 +20,11 @@ const IndexClientsTokenPage = () => {
         createdBy='TE7j...Ez3U'
         description="Introducing YACHT, the latest meme coin to hit the crypto scene! Packed with unique incentives and community-driven features. Sharbi Yacht offers more than just investment potential—it's a celebration of crypto culture."
         imgUrl='/temp/trending-project2.jpg'
+        socialLinks={{
+          website: '',
+          telegram: '',
+          twitter: '',
+        }}
         ticker='$YACHT'
         title='Sharbi Yacht'
         tokenHighlights={[

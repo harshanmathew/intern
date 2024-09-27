@@ -1,8 +1,8 @@
 'use client';
-// import { GlobalIcon, TelegramIcon, TwitterIcon } from '@/lib/index-icons';
+import { TelegramIcon, TwitterIcon, WebsiteIcon } from '@/lib/index-icons';
 import { CopyIcon } from 'lucide-react';
 import Image from 'next/image';
-// import Link from 'next/link';
+import Link from 'next/link';
 import React from 'react';
 import TokenDetailBox from './token-detail-box';
 
@@ -18,11 +18,11 @@ type TokenDetailsBannerType = {
     value: string;
     isHighlight?: boolean;
   }[];
-  // socialLinks: {
-  //   twitter: string;
-  //   discord: string;
-  //   telegram: string;
-  // };
+  socialLinks: {
+    twitter: string;
+    website: string;
+    telegram: string;
+  };
 };
 
 const TokenDetailsBanner: React.FC<TokenDetailsBannerType> = ({
@@ -33,6 +33,7 @@ const TokenDetailsBanner: React.FC<TokenDetailsBannerType> = ({
   contract,
   description,
   tokenHighlights,
+  socialLinks,
 }) => {
   return (
     <div className='w-full flex gap-x-5 p-[24px] min-h-[350px] rounded-[10px] bg-background border border-primary/50 mt-4'>
@@ -42,21 +43,21 @@ const TokenDetailsBanner: React.FC<TokenDetailsBannerType> = ({
       <div>
         <div className='flex items-center justify-between'>
           <h1 className='text-3xl font-bold'>{title}</h1>
-          <div>
+          <div className='flex items-center gap-x-2'>
             <div className='h-6 px-4 py-1 text-sm flex-center rounded-[5px] bg-secondary'>
               Trending
             </div>
-            {/* <div className='flex gap-x-2 items-center cursor-pointer'>
+            <div className='flex gap-x-2 items-center cursor-pointer'>
               <Link href={socialLinks.twitter}>
-                <TwitterIcon className='w-[20px] h-auto' />
+                <TwitterIcon className='w-[20px] h-[20px]' />
               </Link>
-              <Link href={socialLinks.discord}>
-                <GlobalIcon className='w-[20px] h-auto' />
+              <Link href={socialLinks.website}>
+                <WebsiteIcon className='w-[20px] h-[20px]' />
               </Link>
               <Link href={socialLinks.telegram}>
-                <TelegramIcon className='w-[20px] h-auto' />
+                <TelegramIcon className='w-[20px] h-[20px]' />
               </Link>
-            </div> */}
+            </div>
           </div>
         </div>
         <div>
