@@ -34,9 +34,9 @@ const Input: React.FC<InputTypes> = ({
     <div className={rootClass}>
       <label>
         <div className='pb-2 flex items-center justify-between'>
-          <div className='flex items-center gap-x-2 pl-2'>
+          <div className='flex items-center gap-x-2'>
             {labelIcon}
-            <span className={cn('ml-1 text-xl leading-none', labelClass)}>
+            <span className={cn('ml-3 text-xl leading-none', labelClass)}>
               {label} {required && <sup className='ml-[-10px]'>*</sup>}
             </span>
           </div>
@@ -48,7 +48,7 @@ const Input: React.FC<InputTypes> = ({
         </div>
         <input
           className={cn(
-            'w-full h-[50px] rounded-[10px] text-xl outline-primary px-5 text-left border border-primary/50 text-white bg-input',
+            'w-full h-[50px] rounded-[10px] outline-primary p-4 text-left border border-primary/50 text-white bg-input',
             inputClass
           )}
           max={maxCharAllowed}

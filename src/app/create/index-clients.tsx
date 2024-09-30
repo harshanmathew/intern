@@ -4,7 +4,7 @@ import CreateProjectForm from './create-project-form';
 
 const IndexClients = () => {
   return (
-    <div className='pt-7'>
+    <div className='pt-7 pb-[30vh]'>
       <BackHomeNavbar />
       <CreateProjectForm />
     </div>

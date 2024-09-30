@@ -1,3 +1,11 @@
 export { default as TwitterIcon } from '@/public/svg/twitter.svg';
 export { default as WebsiteIcon } from '@/public/svg/website.svg';
 export { default as TelegramIcon } from '@/public/svg/telegram.svg';
+export { default as BoneIcon } from '@/public/svg/forms/bone.svg';
+export { default as ShowMoreIcon } from '@/public/svg/forms/show-more.svg';
+export { default as TokenNameIcon } from '@/public/svg/forms/token-name.svg';
+export { default as TokenSupplyIcon } from '@/public/svg/forms/token-supply.svg';
+export { default as InitialBuyIcon } from '@/public/svg/forms/initial-buy.svg';
+export { default as DescriptionIcon } from '@/public/svg/forms/description.svg';
+export { default as TickerIcon } from '@/public/svg/forms/ticker.svg';
+export { default as ImageInputIcon } from '@/public/svg/forms/image-input.svg';
