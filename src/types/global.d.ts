@@ -2,6 +2,7 @@ type NavLinkType = {
   href: string;
   label: string;
   active: boolean;
+  onClickLink?: () => void;
 };
 
 type TrendingProjectCardType = {

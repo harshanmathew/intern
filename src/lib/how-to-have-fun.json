@@ -1,0 +1,16 @@
+[
+  { "step": 1, "details": "pick a coin that you like" },
+  { "step": 2, "details": "buy the coin on the bonding curve" },
+  {
+    "step": 3,
+    "details": "sell at any time to lock in your profits or losses"
+  },
+  {
+    "step": 4,
+    "details": "when enough people buy on the bonding curve it reaches a market cap of $25k"
+  },
+  {
+    "step": 5,
+    "details": "$5k of liquidity is then deposited in Shibaswap and burned"
+  }
+]
