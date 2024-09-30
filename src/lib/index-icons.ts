@@ -9,3 +9,4 @@ export { default as InitialBuyIcon } from '@/public/svg/forms/initial-buy.svg';
 export { default as DescriptionIcon } from '@/public/svg/forms/description.svg';
 export { default as TickerIcon } from '@/public/svg/forms/ticker.svg';
 export { default as ImageInputIcon } from '@/public/svg/forms/image-input.svg';
+export { default as UserNameIcon } from '@/public/svg/forms/username.svg';
