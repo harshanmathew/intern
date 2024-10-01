@@ -46,7 +46,7 @@
     --container-foreground: 220 100% 99%;
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: hsla(240, 1%, 57%, 0.981);
+    --accent: 240 1% 57%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 100% 68%;
     --destructive-foreground: 0 0% 98%;
