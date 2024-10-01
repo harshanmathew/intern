@@ -7,10 +7,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { cn } from '@/lib/utils';
 
-export function PaginationComp() {
+export function PaginationComp({ className }: { className?: string }) {
   return (
-    <Pagination className='justify-end'>
+    <Pagination className={cn('justify-end', className)}>
       <PaginationContent>
         <PaginationItem className='mr-2'>
           <PaginationPrevious className='w-auto h-auto' href='#' />

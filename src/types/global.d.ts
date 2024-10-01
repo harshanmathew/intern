@@ -40,6 +40,7 @@ type TokenDetailBoxType = {
   title: string;
   value: string;
   isHighlight?: boolean;
+  className?: string;
 };
 
 type InputTypes = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -57,3 +58,9 @@ type TextAreaTypes = Omit<
   React.InputHTMLAttributes<HTMLInputElement>
 > &
   React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+type UserProfileType = {
+  username: string;
+  walletAddress: string;
+  imgUrl: string;
+};
