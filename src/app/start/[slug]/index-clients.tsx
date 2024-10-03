@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import TradeNowComponent from './trade-now-component';
 import TradingHistory from './trading-history';
 import HolderDistribution from './holder-distribution';
+import ProgressBar from '@/components/atoms/progress-bar';
 
 const IndexClientsTokenPage = () => {
   return (
@@ -51,12 +52,28 @@ const IndexClientsTokenPage = () => {
           },
         ]}
       />
-      <div className='grid grid-cols-[auto_auto] place-items-center gap-x-5 mt-5'>
+      <div className='grid grid-cols-[auto_500px] place-items-center gap-x-5 mt-5'>
+        <div className='grow' />
         <TradeNowComponent />
       </div>
-      <div className='grid grid-cols-[auto_auto] place-items-center gap-x-5 mt-5 pb-[70vh]'>
+      <div className='grid grid-cols-[auto_500px] place-items-start gap-x-5 mt-5 pb-[40vh]'>
         <TradingHistory />
-        <HolderDistribution />
+        <div>
+          <div className='pb-5'>
+            <h4 className='text-xl text-white font-bold leading-none'>
+              Bonding Curve Progress: 23%
+            </h4>
+            <ProgressBar className='mt-4' percent={40} />
+            <p className='text-xs mt-3'>
+              There are 7,000 YACHT still available for sale in the bonding
+              curve and there are 2,300 BONE in the bonding curve.When the
+              market cap reaches $400,000 all the liquidity from the bonding
+              curve will be deposited into Shibaswap and burned. Progression
+              increases as the price goes up.
+            </p>
+          </div>
+          <HolderDistribution />
+        </div>
       </div>
     </div>
   );

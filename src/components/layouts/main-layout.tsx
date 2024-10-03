@@ -1,11 +1,11 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import Header from './header';
 import Image from 'next/image';
 
 const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <>
+    <Suspense>
       <Header />
       <div className='fixed top-0 left-0 right-0 w-full z-[-1]'>
         <div className='relative w-full h-[540px]'>
@@ -19,7 +19,7 @@ const MainLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         </div>
       </div>
       <div className='lg:px-[60px] xl:px-[104px]'>{children}</div>
-    </>
+    </Suspense>
   );
 };
 

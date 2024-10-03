@@ -1,4 +1,7 @@
+import Input from '@/components/atoms/input';
 import { Button } from '@/components/ui/button';
+import { BoneIcon } from '@/lib/index-icons';
+import { Settings } from 'lucide-react';
 import React from 'react';
 
 const TradeNowComponent = () => {
@@ -18,6 +21,48 @@ const TradeNowComponent = () => {
           Sell
         </Button>
       </div>
+
+      <div className='relative mt-7'>
+        <div className='flex items-center justify-between px-2'>
+          <span className='text-white/50'>Switch to YACHT</span>
+          <Settings className='w-[18px] h-auto text-white cursor-pointer' />
+        </div>
+        <Input
+          inputClass='placeholder:text-white/50 h-[90px] pb-[30px] pl-6 pr-[15%] pt-2'
+          placeholder='Enter the amount'
+          required={false}
+          rootClass='grow'
+        />
+        <span className='absolute left-6 bottom-[20px] text-xs text-white/50 mt-1'>
+          Balance: -- BONE
+        </span>
+        <div className='absolute text-3xl flex items-center right-7 bottom-[30px] cursor-pointer'>
+          Bone <BoneIcon className='ml-5 w-[30px] h-auto' />
+        </div>
+      </div>
+      <div className='flex gap-x-2 mt-3'>
+        <Button className='px-3 h-[30px] bg-container' variant={'ghost'}>
+          50 Bone
+        </Button>
+        <Button className='px-3 h-[30px] bg-container' variant={'ghost'}>
+          100 Bone
+        </Button>
+        <Button
+          className='px-3 h-[30px] bg-primary text-black'
+          variant={'ghost'}
+        >
+          250 Bone
+        </Button>
+        <Button className='px-3 h-[30px] bg-container' variant={'ghost'}>
+          500 Bone
+        </Button>
+      </div>
+      <div className='flex-center h-[90px] text-white/50 bg-container mt-7 rounded-[10px] border border-primary/50'>
+        You will receive <span className='text-white ml-2'>2,500 YACHT</span>
+      </div>
+      <Button className='text-xl h-[60px] mt-5 w-full' variant={'secondary'}>
+        Trade Now
+      </Button>
     </div>
   );
 };
