@@ -1,17 +1,20 @@
 'use client';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import Logo from '@/public/svg/logo.svg';
+import Logo from '@/public/svg/logo.svg?url';
 import NavLink from '../atoms/nav-link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import HowToHaveFunModal from '../how-to-have-fun.modal';
 
 const Header = () => {
   const pathname = usePathname();
+  const searchParam = useSearchParams();
 
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isShowHowToFun, setShowHowToFun] = useState(false);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -66,10 +69,11 @@ const Header = () => {
               label='Create'
             />
             <NavLink
-              active={pathname === '/how-it-works'}
-              href='/how-it-works'
+              active={searchParam.has('how-it-works') && isShowHowToFun}
+              href='?how-it-works'
               key={3}
               label='How it works?'
+              onClickLink={() => setShowHowToFun((prev) => !prev)}
             />
             <NavLink
               active={pathname === '/rewards'}
@@ -86,6 +90,10 @@ const Header = () => {
         </div>
       </div>
       <div className='h-[120px]' id='sentinel' />
+      <HowToHaveFunModal
+        isOpen={isShowHowToFun}
+        onOpenChange={() => setShowHowToFun(false)}
+      />
     </>
   );
 };

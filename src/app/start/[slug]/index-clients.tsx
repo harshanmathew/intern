@@ -3,6 +3,9 @@ import BackHomeNavbar from '@/components/atoms/back-home-navbar';
 import React from 'react';
 import TokenDetailsBanner from './token-details-banner';
 import { Button } from '@/components/ui/button';
+import TradeNowComponent from './trade-now-component';
+import TradingHistory from './trading-history';
+import HolderDistribution from './holder-distribution';
 
 const IndexClientsTokenPage = () => {
   return (
@@ -17,6 +20,11 @@ const IndexClientsTokenPage = () => {
         createdBy='TE7j...Ez3U'
         description="Introducing YACHT, the latest meme coin to hit the crypto scene! Packed with unique incentives and community-driven features. Sharbi Yacht offers more than just investment potential—it's a celebration of crypto culture."
         imgUrl='/temp/trending-project2.jpg'
+        socialLinks={{
+          website: '',
+          telegram: '',
+          twitter: '',
+        }}
         ticker='$YACHT'
         title='Sharbi Yacht'
         tokenHighlights={[
@@ -43,6 +51,13 @@ const IndexClientsTokenPage = () => {
           },
         ]}
       />
+      <div className='grid grid-cols-[auto_auto] place-items-center gap-x-5 mt-5'>
+        <TradeNowComponent />
+      </div>
+      <div className='grid grid-cols-[auto_auto] place-items-center gap-x-5 mt-5 pb-[70vh]'>
+        <TradingHistory />
+        <HolderDistribution />
+      </div>
     </div>
   );
 };
