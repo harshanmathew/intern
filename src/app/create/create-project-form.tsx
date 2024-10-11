@@ -30,9 +30,13 @@ const CreateProjectForm = () => {
   };
   return (
     <div className='w-full h-full p-4 lg:p-7 xl:p-10 border border-primary/50 rounded-[10px]'>
-      <div className='flex w-full gap-x-7 lg:gap-x-10 xl:gap-x-12'>
-        <InputImage image={image} onImageChange={onImageChange} />
-        <div className='grow'>
+      <div className='flex flex-col lg:flex-row w-full gap-x-7 lg:gap-x-10 xl:gap-x-12'>
+        <InputImage
+          image={image}
+          imgWrapperClass='h-[150px] lg:h-full'
+          onImageChange={onImageChange}
+        />
+        <div className='grow mt-7'>
           <Input
             label='Token Name'
             labelIcon={<TokenNameIcon className='w-[20px] h-auto' />}
@@ -59,32 +63,35 @@ const CreateProjectForm = () => {
         label='Description'
         labelIcon={<DescriptionIcon className='w-[20px] h-auto' />}
         maxCharAllowed={240}
-        rootClass='mt-10'
+        rootClass='mt-7 lg:mt-10'
       />
       <div className='relative mt-7'>
-        <span className='absolute top-0 left-[15%] text-white/50'>
+        <span className='absolute top-1 text-[10px] lg:text-sm left-[50%] lg:left-[25%] text-white/50'>
           Buy your own token
         </span>
         <Input
-          inputClass='placeholder:text-white/50 h-[100px] pb-[30px] pl-6 pr-[15%] pt-2'
+          inputClass='placeholder:text-white/50 h-[80px] lg:h-[100px] pb-[30px] pl-3 lg:pl-6 pr-[15%] pt-2'
           label='Initial Buy'
+          labelClass='text-xs lg:text-xl'
           labelIcon={<InitialBuyIcon className='w-[20px] h-auto' />}
           placeholder='Enter the amount'
           required={false}
           rootClass='grow'
         />
-        <span className='absolute left-6 bottom-[20px] text-xs text-white/50 mt-1'>
+        <span className='absolute left-3 lg:left-6 bottom-[20px] text-[10px] lg:text-xs text-white/50 mt-1'>
           Balance: -- BONE
         </span>
-        <div className='absolute text-3xl flex items-center right-7 bottom-[30px] cursor-pointer'>
-          Bone <BoneIcon className='ml-5 w-[30px] h-auto' />
+        <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
+          Bone <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
         </div>
       </div>
 
       <div className='mt-10'>
-        <span className='text-lg ml-4'>Cost of deployment: 50 BONE</span>
+        <span className='text-sm lg:text-lg ml-2 lg:ml-4'>
+          Cost of deployment: 50 BONE
+        </span>
         <Button
-          className='text-2xl w-full font-bold h-[70px] mt-1'
+          className='text-lg lg:text-2xl w-full font-bold h-[60px] lg:h-[70px] mt-1'
           variant={'secondary'}
         >
           Launch Your Project Now
@@ -92,13 +99,13 @@ const CreateProjectForm = () => {
       </div>
 
       <div
-        className='text-2xl flex items-center mt-7 cursor-pointer'
+        className='text-md lg:text-2xl flex items-center mt-7 cursor-pointer'
         onClick={() => setShowMoreInputs((prev) => !prev)}
         role='button'
       >
         <ShowMoreIcon
           className={cn(
-            'w-[30px] h-auto mr-3 text-white',
+            'w-[20px] lg:w-[30px] h-auto mr-3 text-white',
             isShowMoreInputs && 'text-primary'
           )}
         />{' '}

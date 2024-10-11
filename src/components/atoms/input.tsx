@@ -50,7 +50,7 @@ const Input: React.FC<InputTypes> = ({
         </div>
         <input
           className={cn(
-            'w-full h-[45px] lg:h-[50px] rounded-[10px] text-lg lg:text-xl outline-primary px-5 text-left border border-primary/50 text-white bg-input',
+            'w-full h-[45px] lg:h-[50px] rounded-[10px] text-lg lg:text-xl outline-primary px-3 lg:px-5 text-left border border-primary/50 text-white bg-input',
             inputClass
           )}
           max={maxCharAllowed}
