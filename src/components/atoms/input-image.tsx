@@ -32,7 +32,7 @@ const InputImage: React.FC<{
         )}
         {!image && (
           <div className='absolute text-sm flex-center flex-col inset-0'>
-            <ImageInputIcon className='text-[#FF00FF] w-[100px] h-auto mb-10' />
+            <ImageInputIcon className='text-[#FF00FF] w-[80px] lg:w-[100px] h-auto mb-5 lg:mb-10' />
             <span>JPEG/PNG/GIF/WEBP</span>
             <span className='text-white/50'>Less than 3 MB</span>
           </div>

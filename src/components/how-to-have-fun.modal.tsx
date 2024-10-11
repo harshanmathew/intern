@@ -18,7 +18,9 @@ const HowToHaveFunModal = ({
   return (
     <Dialog onOpenChange={onOpenChange} open={isOpen}>
       <div>
-        <DialogContent className={`w-full max-w-auto bg-container`}>
+        <DialogContent
+          className={`w-[95%] lg:w-full mx-auto rounded-[10px] max-w-auto bg-container`}
+        >
           <DialogHeader>
             <DialogTitle className='text-center'>How to have fun?</DialogTitle>
           </DialogHeader>
