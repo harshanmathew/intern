@@ -1,52 +1,64 @@
 'use client';
+
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import Logo from '@/public/svg/logo.svg?url';
-import NavLink from '../atoms/nav-link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Logo from '@/public/svg/logo.svg?url';
+import NavLink from '../atoms/nav-link';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
+import { CloseIcon } from '@/lib/index-icons';
+import { Globe, XIcon, HelpCircle } from 'lucide-react';
 
 const Header = () => {
   const pathname = usePathname();
   const searchParam = useSearchParams();
+  const router = useRouter();
 
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const handleConnectWallet = useCallback(() => {
+    setWalletConnected(true);
+    setWalletAddress('983FA4219ABC0A91'); // Example wallet address
+  }, []);
+
+  const formatWalletAddress = useCallback(
+    (address: string) =>
+      address.length >= 6
+        ? `${address.slice(0, 3)}...${address.slice(-3)}`
+        : address,
+    []
+  );
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          console.log({ entry });
-          if (entry.isIntersecting) {
-            setIsScrolled(false); // When the sentinel is visible
-          } else {
-            setIsScrolled(true); // When the sentinel is not visible
-          }
-        });
-      },
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
       { threshold: 0.7 }
     );
 
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
-
-    return () => {
-      if (sentinel) {
-        observer.unobserve(sentinel);
-      }
-    };
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      <div
+      <header
         className={cn(
           'fixed top-0 left-0 right-0 flex items-center justify-between lg:px-[60px] xl:px-[104px] h-[120px] z-50 transition-colors',
           isScrolled && 'bg-black/80 shadow-lg border-b border-primary/50'
@@ -55,41 +67,95 @@ const Header = () => {
       >
         <div className='flex items-center justify-between lg:gap-x-10 xl:gap-x-20'>
           <Image alt='logo' className='w-[140px] h-[50px]' src={Logo} />
-          <div className='flex items-start justify-between gap-x-10 grow mt-4'>
+
+          <nav className='flex items-start gap-x-10 grow mt-4'>
             <NavLink
               active={pathname === '/start'}
               href='/start'
-              key={1}
               label='Start'
             />
             <NavLink
               active={pathname === '/create'}
               href='/create'
-              key={2}
               label='Create'
             />
             <NavLink
               active={searchParam.has('how-it-works') && isShowHowToFun}
               href='?how-it-works'
-              key={3}
               label='How it works?'
               onClickLink={() => setShowHowToFun((prev) => !prev)}
             />
             <NavLink
               active={pathname === '/rewards'}
               href='/rewards'
-              key={4}
               label='Rewards'
             />
-          </div>
+          </nav>
         </div>
-        <div className=''>
-          <Button className='text-xl flex-center h-[50px]'>
-            Connect Wallet
-          </Button>
+
+        <div className='relative'>
+          {walletConnected ? (
+            <DropdownMenu open={open} onOpenChange={setOpen}>
+              <DropdownMenuTrigger asChild>
+                <Button className='text-xl flex items-center justify-center h-[50px]'>
+                  {formatWalletAddress(walletAddress)}
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className='absolute -right-[4.5rem] -top-14 w-72 bg-[#2B002B] rounded-lg shadow-lg overflow-hidden'>
+                <div className='p-4'>
+                  <div className='flex justify-between items-center'>
+                    <Button className='text-xl flex items-center justify-center h-[50px]'>
+                      {formatWalletAddress(walletAddress)}
+                    </Button>
+                    <CloseIcon
+                      className='cursor-pointer text-white'
+                      onClick={() => setOpen(false)}
+                    />
+                  </div>
+                  <DropdownMenuSeparator className='my-1 border-t border-white/30' />
+                  <DropdownMenuItem className='flex items-center gap-2 text-white p-2 hover:bg-primary rounded-md'>
+                    BUY $BONE
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className='my-1 border-t border-white/30' />
+                  <DropdownMenuItem
+                    onClick={() => router.push('/my-profile')}
+                    className='flex items-center gap-2 text-white p-2 hover:bg-primary rounded-md'
+                  >
+                    User Profile
+                  </DropdownMenuItem>
+                </div>
+                <DropdownMenuSeparator className='border-t border-white/30' />
+                <div className='w-full bg-black'>
+                  <DropdownMenuItem className='flex items-center gap-2 text-white p-2'>
+                    <div className='flex gap-x-4 items-center'>
+                      <div className='bg-white/10 p-3 rounded-md cursor-pointer'>
+                        <XIcon />
+                      </div>
+                      <div className='bg-white/10 p-3 rounded-md cursor-pointer'>
+                        <Globe />
+                      </div>
+                      <div className='bg-white/10 p-3 rounded-md cursor-pointer'>
+                        <HelpCircle />
+                      </div>
+                    </div>
+                  </DropdownMenuItem>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              onClick={handleConnectWallet}
+              className='text-xl flex items-center justify-center h-[50px]'
+            >
+              Connect Wallet
+            </Button>
+          )}
         </div>
-      </div>
+      </header>
+
       <div className='h-[120px]' id='sentinel' />
+
       <HowToHaveFunModal
         isOpen={isShowHowToFun}
         onOpenChange={() => setShowHowToFun(false)}
@@ -97,4 +163,5 @@ const Header = () => {
     </>
   );
 };
+
 export default Header;
