@@ -1,20 +1,30 @@
 'use client';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Logo from '@/public/svg/logo.svg?url';
 import NavLink from '../atoms/nav-link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { usePersonStore } from '@/hooks/user';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
+import { useDisconnect, useSignMessage } from 'wagmi';
+import { me } from '@/app/actions/me';
+import { login } from '@/app/actions/login';
 
 const Header = () => {
+  const { open } = useAppKit();
+  const { address, isConnected, status } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
   const pathname = usePathname();
   const searchParam = useSearchParams();
-
+  const { setIsLogged, isLogged } = usePersonStore();
+  const { signMessage, data, error } = useSignMessage();
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState('');
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -43,6 +53,71 @@ const Header = () => {
       }
     };
   }, []);
+
+  const generateMessage = useCallback(() => {
+    const date = new Date().toISOString();
+    return 'Signing this message at : ' + date;
+  }, []);
+
+  const signUserMessage = useCallback(async () => {
+    const message = generateMessage();
+    setCurrentMessage(message);
+
+    const isUser = await checkUserLoggedIn();
+    if (isUser) {
+      setIsLogged(true);
+      return;
+    }
+
+    localStorage.setItem('token', '');
+    signMessage({ message });
+  }, [address]);
+
+  useEffect(() => {
+    if (address && !isLogged) {
+      signUserMessage();
+    }
+    if (!address && isLogged) {
+      handleLogOut();
+    }
+  }, [address, isLogged]);
+
+  const handleLogOut = useCallback(async () => {
+    localStorage.setItem('token', '');
+    setIsLogged(false);
+    disconnect();
+  }, [disconnect, setIsLogged]);
+
+  const checkUserLoggedIn = async () => {
+    try {
+      const data = await me();
+      return data?.address === address;
+    } catch {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleLogin(data);
+    }
+    if (error) {
+      handleLogOut();
+    }
+  }, [data, error]);
+
+  const handleLogin = useCallback(
+    async (signature: string) => {
+      const res = await login(address, currentMessage, signature);
+      if (res?.accessToken) {
+        localStorage.setItem('token', res.accessToken);
+        setIsLogged(true);
+      } else {
+        handleLogOut();
+      }
+    },
+    [address, currentMessage, setIsLogged, handleLogOut]
+  );
 
   return (
     <>
@@ -84,8 +159,15 @@ const Header = () => {
           </div>
         </div>
         <div className=''>
-          <Button className='text-xl flex-center h-[50px]'>
-            Connect Wallet
+          <Button
+            className='text-xl flex-center h-[50px]'
+            onClick={async () => await open()}
+          >
+            {isConnected
+              ? `${address!.slice(0, 6)}...${address!.slice(-5)}`
+              : status === 'connecting' || status === 'reconnecting'
+                ? 'Loading...'
+                : 'Connect Wallet'}
           </Button>
         </div>
       </div>

@@ -21,7 +21,14 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/public/*": ["./public/*"]
-    }
+    },
+    "target": "ESNext",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "next-env.d.ts",
