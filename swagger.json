@@ -176,6 +176,7 @@
     "/tokens": {
       "post": {
         "operationId": "TokensController_create",
+        "summary": "Create a new token",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -189,29 +190,57 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "The token has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
           }
         },
         "tags": [
           "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "get": {
         "operationId": "TokensController_findAll",
+        "summary": "Get all tokens for the user",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Return all tokens for the user."
+          },
+          "401": {
+            "description": "Unauthorized."
           }
         },
         "tags": [
           "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
     "/tokens/{id}": {
       "get": {
         "operationId": "TokensController_findOne",
+        "summary": "Get a specific token by ID",
         "parameters": [
           {
             "name": "id",
@@ -224,17 +253,29 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Return the token."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Token not found."
           }
         },
         "tags": [
           "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
     "/tokens/{id}/launch": {
       "put": {
         "operationId": "TokensController_launch",
+        "summary": "Launch a token",
         "parameters": [
           {
             "name": "id",
@@ -247,11 +288,22 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "The token has been successfully launched."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Token not found."
           }
         },
         "tags": [
           "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     }
@@ -279,7 +331,123 @@
       },
       "CreateTokenDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Awesome Token"
+          },
+          "ticker": {
+            "type": "string",
+            "example": "MAT"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a revolutionary new token for awesome people."
+          },
+          "image": {
+            "type": "string",
+            "example": "https://example.com/token-image.png"
+          },
+          "tokenSupply": {
+            "type": "number",
+            "example": 1000000
+          },
+          "initialBuyAmount": {
+            "type": "number",
+            "example": 1000
+          },
+          "bondingCurve": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "pro"
+            ],
+            "example": "beginner"
+          },
+          "twitterLink": {
+            "type": "string",
+            "example": "https://twitter.com/myawesometoken"
+          },
+          "telegramLink": {
+            "type": "string",
+            "example": "https://t.me/myawesometoken"
+          },
+          "websiteLink": {
+            "type": "string",
+            "example": "https://myawesometoken.com"
+          },
+          "launched": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "name",
+          "ticker",
+          "description",
+          "image",
+          "tokenSupply",
+          "bondingCurve"
+        ]
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "tokenSupply": {
+            "type": "number"
+          },
+          "initialBuyAmount": {
+            "type": "number"
+          },
+          "bondingCurve": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "pro"
+            ]
+          },
+          "twitterLink": {
+            "type": "string"
+          },
+          "telegramLink": {
+            "type": "string"
+          },
+          "websiteLink": {
+            "type": "string"
+          },
+          "launched": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "ticker",
+          "description",
+          "image",
+          "tokenSupply",
+          "initialBuyAmount",
+          "bondingCurve",
+          "twitterLink",
+          "telegramLink",
+          "websiteLink",
+          "launched"
+        ]
       }
     }
   }

@@ -22,8 +22,12 @@ export namespace Tokens {
    * No description
    * @tags Tokens
    * @name TokensControllerCreate
+   * @summary Create a new token
    * @request POST:/tokens
-   * @response `201` `TokensControllerCreateData`
+   * @secure
+   * @response `201` `TokensControllerCreateData` The token has been successfully created.
+   * @response `400` `void` Bad Request.
+   * @response `401` `void` Unauthorized.
    */
   export namespace TokensControllerCreate {
     export type RequestParams = {};
@@ -37,8 +41,11 @@ export namespace Tokens {
    * No description
    * @tags Tokens
    * @name TokensControllerFindAll
+   * @summary Get all tokens for the user
    * @request GET:/tokens
-   * @response `200` `TokensControllerFindAllData`
+   * @secure
+   * @response `200` `TokensControllerFindAllData` Return all tokens for the user.
+   * @response `401` `void` Unauthorized.
    */
   export namespace TokensControllerFindAll {
     export type RequestParams = {};
@@ -52,8 +59,12 @@ export namespace Tokens {
    * No description
    * @tags Tokens
    * @name TokensControllerFindOne
+   * @summary Get a specific token by ID
    * @request GET:/tokens/{id}
-   * @response `200` `TokensControllerFindOneData`
+   * @secure
+   * @response `200` `TokensControllerFindOneData` Return the token.
+   * @response `401` `void` Unauthorized.
+   * @response `404` `void` Token not found.
    */
   export namespace TokensControllerFindOne {
     export type RequestParams = {
@@ -69,8 +80,12 @@ export namespace Tokens {
    * No description
    * @tags Tokens
    * @name TokensControllerLaunch
+   * @summary Launch a token
    * @request PUT:/tokens/{id}/launch
-   * @response `200` `TokensControllerLaunchData`
+   * @secure
+   * @response `200` `TokensControllerLaunchData` The token has been successfully launched.
+   * @response `401` `void` Unauthorized.
+   * @response `404` `void` Token not found.
    */
   export namespace TokensControllerLaunch {
     export type RequestParams = {

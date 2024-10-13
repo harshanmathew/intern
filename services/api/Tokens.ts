@@ -24,15 +24,21 @@ export class Tokens<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    *
    * @tags Tokens
    * @name TokensControllerCreate
+   * @summary Create a new token
    * @request POST:/tokens
-   * @response `201` `TokensControllerCreateData`
+   * @secure
+   * @response `201` `TokensControllerCreateData` The token has been successfully created.
+   * @response `400` `void` Bad Request.
+   * @response `401` `void` Unauthorized.
    */
   tokensControllerCreate = (data: CreateTokenDto, params: RequestParams = {}) =>
-    this.request<TokensControllerCreateData, any>({
+    this.request<TokensControllerCreateData, void>({
       path: `/tokens`,
       method: 'POST',
       body: data,
+      secure: true,
       type: ContentType.Json,
+      format: 'json',
       ...params,
     });
   /**
@@ -40,13 +46,17 @@ export class Tokens<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    *
    * @tags Tokens
    * @name TokensControllerFindAll
+   * @summary Get all tokens for the user
    * @request GET:/tokens
-   * @response `200` `TokensControllerFindAllData`
+   * @secure
+   * @response `200` `TokensControllerFindAllData` Return all tokens for the user.
+   * @response `401` `void` Unauthorized.
    */
   tokensControllerFindAll = (params: RequestParams = {}) =>
-    this.request<TokensControllerFindAllData, any>({
+    this.request<TokensControllerFindAllData, void>({
       path: `/tokens`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
@@ -54,13 +64,18 @@ export class Tokens<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    *
    * @tags Tokens
    * @name TokensControllerFindOne
+   * @summary Get a specific token by ID
    * @request GET:/tokens/{id}
-   * @response `200` `TokensControllerFindOneData`
+   * @secure
+   * @response `200` `TokensControllerFindOneData` Return the token.
+   * @response `401` `void` Unauthorized.
+   * @response `404` `void` Token not found.
    */
   tokensControllerFindOne = (id: string, params: RequestParams = {}) =>
-    this.request<TokensControllerFindOneData, any>({
+    this.request<TokensControllerFindOneData, void>({
       path: `/tokens/${id}`,
       method: 'GET',
+      secure: true,
       ...params,
     });
   /**
@@ -68,13 +83,18 @@ export class Tokens<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    *
    * @tags Tokens
    * @name TokensControllerLaunch
+   * @summary Launch a token
    * @request PUT:/tokens/{id}/launch
-   * @response `200` `TokensControllerLaunchData`
+   * @secure
+   * @response `200` `TokensControllerLaunchData` The token has been successfully launched.
+   * @response `401` `void` Unauthorized.
+   * @response `404` `void` Token not found.
    */
   tokensControllerLaunch = (id: string, params: RequestParams = {}) =>
-    this.request<TokensControllerLaunchData, any>({
+    this.request<TokensControllerLaunchData, void>({
       path: `/tokens/${id}/launch`,
       method: 'PUT',
+      secure: true,
       ...params,
     });
 }

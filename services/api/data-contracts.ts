@@ -29,7 +29,33 @@ export interface AuthControllerLoginPayload {
   signature?: string;
 }
 
-export type CreateTokenDto = object;
+export interface CreateTokenDto {
+  /** @example "beginner" */
+  bondingCurve: CreateTokenDtoBondingCurveEnum;
+  /** @example "This is a revolutionary new token for awesome people." */
+  description: string;
+  /** @example "https://example.com/token-image.png" */
+  image: string;
+  /** @example 1000 */
+  initialBuyAmount?: number;
+  /** @example false */
+  launched?: boolean;
+  /** @example "My Awesome Token" */
+  name: string;
+  /** @example "https://t.me/myawesometoken" */
+  telegramLink?: string;
+  /** @example "MAT" */
+  ticker: string;
+  /** @example 1000000 */
+  tokenSupply: number;
+  /** @example "https://twitter.com/myawesometoken" */
+  twitterLink?: string;
+  /** @example "https://myawesometoken.com" */
+  websiteLink?: string;
+}
+
+/** @example "beginner" */
+export type CreateTokenDtoBondingCurveEnum = 'beginner' | 'pro';
 
 export type MeControllerFindMeData = any;
 
@@ -37,7 +63,24 @@ export type MeControllerRemoveMeData = any;
 
 export type MeControllerUpdateMeData = any;
 
-export type TokensControllerCreateData = any;
+export interface Token {
+  _id: string;
+  bondingCurve: TokenBondingCurveEnum;
+  description: string;
+  image: string;
+  initialBuyAmount: number;
+  launched: boolean;
+  name: string;
+  telegramLink: string;
+  ticker: string;
+  tokenSupply: number;
+  twitterLink: string;
+  websiteLink: string;
+}
+
+export type TokenBondingCurveEnum = 'beginner' | 'pro';
+
+export type TokensControllerCreateData = Token;
 
 export type TokensControllerFindAllData = any;
 
