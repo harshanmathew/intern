@@ -48,7 +48,7 @@ const Textarea: React.FC<TextAreaTypes> = ({
         </div>
         <textarea
           className={cn(
-            'w-full h-[50px] rounded-[10px] outline-primary py-3 text-xl px-5 text-left border border-primary/50 text-white bg-input',
+            'w-full h-[50px] rounded-[10px] outline-primary py-3 text-xl px-3 lg:px-5 text-left border border-primary/50 text-white bg-input',
             inputClass
           )}
           max={maxCharAllowed}
