@@ -1,0 +1,454 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/me": {
+      "get": {
+        "operationId": "MeController_findMe",
+        "summary": "Get current user details",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the current user."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "tags": [
+          "Me"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "MeController_updateMe",
+        "summary": "Update current user details",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        },
+        "tags": [
+          "Me"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "MeController_removeMe",
+        "summary": "Delete current user account",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        },
+        "tags": [
+          "Me"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Login with wallet address and signature",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "description": "Wallet address",
+                    "example": "0xAbb6c94E23cdA58BfB0ee135Eb974fAC4D0afcA7"
+                  },
+                  "signature": {
+                    "type": "string",
+                    "description": "Signature",
+                    "example": "0xc68245bb2cf6993a3ee9d14f3ebeb25e28bf207b02ea53bae9d506bb9457634306027368eb9db7ad44bec38cf1516afecbe68c6165d9e87e20d4e0309d0d8e121b"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Message that was signed",
+                    "example": "Signing this message at : <replace with timestamp>"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/uploads/file": {
+      "post": {
+        "operationId": "UploadsController_uploadFile",
+        "summary": "Upload file and get the file URL",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully and file URL returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fileKey": {
+                      "type": "string"
+                    },
+                    "uploadUrl": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Uploads"
+        ]
+      }
+    },
+    "/tokens": {
+      "post": {
+        "operationId": "TokensController_create",
+        "summary": "Create a new token",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTokenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The token has been successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "tags": [
+          "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "TokensController_findAll",
+        "summary": "Get all tokens for the user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all tokens for the user."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "tags": [
+          "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/tokens/{id}": {
+      "get": {
+        "operationId": "TokensController_findOne",
+        "summary": "Get a specific token by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the token."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Token not found."
+          }
+        },
+        "tags": [
+          "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/tokens/{id}/launch": {
+      "put": {
+        "operationId": "TokensController_launch",
+        "summary": "Launch a token",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The token has been successfully launched."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "Token not found."
+          }
+        },
+        "tags": [
+          "Tokens"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Web3 Backend API",
+    "description": "API documentation for the Web3 backend application",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateTokenDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "My Awesome Token"
+          },
+          "ticker": {
+            "type": "string",
+            "example": "MAT"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a revolutionary new token for awesome people."
+          },
+          "image": {
+            "type": "string",
+            "example": "https://example.com/token-image.png"
+          },
+          "tokenSupply": {
+            "type": "number",
+            "example": 1000000
+          },
+          "initialBuyAmount": {
+            "type": "number",
+            "example": 1000
+          },
+          "bondingCurve": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "pro"
+            ],
+            "example": "beginner"
+          },
+          "twitterLink": {
+            "type": "string",
+            "example": "https://twitter.com/myawesometoken"
+          },
+          "telegramLink": {
+            "type": "string",
+            "example": "https://t.me/myawesometoken"
+          },
+          "websiteLink": {
+            "type": "string",
+            "example": "https://myawesometoken.com"
+          },
+          "launched": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "name",
+          "ticker",
+          "description",
+          "image",
+          "tokenSupply",
+          "bondingCurve"
+        ]
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "tokenSupply": {
+            "type": "number"
+          },
+          "initialBuyAmount": {
+            "type": "number"
+          },
+          "bondingCurve": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "pro"
+            ]
+          },
+          "twitterLink": {
+            "type": "string"
+          },
+          "telegramLink": {
+            "type": "string"
+          },
+          "websiteLink": {
+            "type": "string"
+          },
+          "launched": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "ticker",
+          "description",
+          "image",
+          "tokenSupply",
+          "initialBuyAmount",
+          "bondingCurve",
+          "twitterLink",
+          "telegramLink",
+          "websiteLink",
+          "launched"
+        ]
+      }
+    }
+  }
+}
