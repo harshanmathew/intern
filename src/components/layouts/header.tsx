@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Logo from '@/public/svg/logo.svg?url';
 import NavLink from '../atoms/nav-link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -9,12 +9,34 @@ import { cn } from '@/lib/utils';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+// New imports
+import { usePersonStore } from '@/hooks/user';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
+import { useDisconnect, useSignMessage } from 'wagmi';
+import { me } from '@/app/actions/me';
+import { login } from '@/app/actions/login';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
+
+  // New state and hooks
+  const { open } = useAppKit();
+  const { address, isConnected, status } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
+  const { setIsLogged, isLogged } = usePersonStore();
+  const { signMessage, data, error } = useSignMessage();
+  const [currentMessage, setCurrentMessage] = useState('');
+  const router = useRouter();
+  // if user is not connected, redirect to /start
+  useEffect(() => {
+    if (!isConnected) {
+      router.push('/start');
+    }
+  }, [isConnected, router]);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -44,6 +66,72 @@ const Header = () => {
     };
   }, []);
 
+  // New functions
+  const generateMessage = useCallback(() => {
+    const date = new Date().toISOString();
+    return 'Signing this message at : ' + date;
+  }, []);
+
+  const signUserMessage = useCallback(async () => {
+    const message = generateMessage();
+    setCurrentMessage(message);
+
+    const isUser = await checkUserLoggedIn();
+    if (isUser) {
+      setIsLogged(true);
+      return;
+    }
+
+    localStorage.setItem('token', '');
+    signMessage({ message });
+  }, [address, generateMessage, setIsLogged, signMessage]);
+
+  useEffect(() => {
+    if (address && !isLogged) {
+      signUserMessage();
+    }
+    if (!address && isLogged) {
+      handleLogOut();
+    }
+  }, [address, isLogged, signUserMessage]);
+
+  const handleLogOut = useCallback(async () => {
+    localStorage.setItem('token', '');
+    setIsLogged(false);
+    disconnect();
+  }, [disconnect, setIsLogged]);
+
+  const checkUserLoggedIn = async () => {
+    try {
+      const data = await me();
+      return data?.address === address;
+    } catch {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleLogin(data);
+    }
+    if (error) {
+      handleLogOut();
+    }
+  }, [data, error]);
+
+  const handleLogin = useCallback(
+    async (signature: string) => {
+      const res = await login(address, currentMessage, signature);
+      if (res?.accessToken) {
+        localStorage.setItem('token', res.accessToken);
+        setIsLogged(true);
+      } else {
+        handleLogOut();
+      }
+    },
+    [address, currentMessage, setIsLogged, handleLogOut]
+  );
+
   return (
     <header>
       <div
@@ -70,8 +158,15 @@ const Header = () => {
             />
           </div>
           <div className='flex gap-x-4'>
-            <Button className='text-xs lg:text-xl font-medium flex-center px-2 lg:px-4 h-[40px] lg:h-[50px]'>
-              Connect Wallet
+            <Button
+              className='text-xs lg:text-xl font-medium flex-center px-2 lg:px-4 h-[40px] lg:h-[50px]'
+              onClick={async () => await open()}
+            >
+              {isConnected
+                ? `${address!.slice(0, 6)}...${address!.slice(-5)}`
+                : status === 'connecting' || status === 'reconnecting'
+                  ? 'Loading...'
+                  : 'Connect Wallet'}
             </Button>
             {isMenuOpen ? (
               <X
@@ -106,6 +201,7 @@ const Header = () => {
   );
 };
 
+// Keep the NavLinks component as it was
 const NavLinks = ({
   setShowHowToFun,
   isShowHowToFun,
@@ -160,4 +256,5 @@ const NavLinks = ({
     </div>
   );
 };
+
 export default Header;
