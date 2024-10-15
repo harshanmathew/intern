@@ -17,6 +17,7 @@ import NavLink from '../atoms/nav-link';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
 import { CloseIcon } from '@/lib/index-icons';
 import { Globe, XIcon, HelpCircle } from 'lucide-react';
+import { useWallet } from '@/context/WalletContext';
 
 const Header = () => {
   const pathname = usePathname();
@@ -26,14 +27,10 @@ const Header = () => {
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState('');
   const [open, setOpen] = useState(false);
 
-  const handleConnectWallet = useCallback(() => {
-    setWalletConnected(true);
-    setWalletAddress('983FA4219ABC0A91'); // Example wallet address
-  }, []);
+  // Use Wallet Context
+  const { isConnected, username, connectWallet, disconnectWallet } = useWallet();
 
   const formatWalletAddress = useCallback(
     (address: string) =>
@@ -69,16 +66,8 @@ const Header = () => {
           <Image alt='logo' className='w-[140px] h-[50px]' src={Logo} />
 
           <nav className='flex items-start gap-x-10 grow mt-4'>
-            <NavLink
-              active={pathname === '/start'}
-              href='/start'
-              label='Start'
-            />
-            <NavLink
-              active={pathname === '/create'}
-              href='/create'
-              label='Create'
-            />
+            <NavLink active={pathname === '/start'} href='/start' label='Start' />
+            <NavLink active={pathname === '/create'} href='/create' label='Create' />
             <NavLink
               active={searchParam.has('how-it-works') && isShowHowToFun}
               href='?how-it-works'
@@ -94,11 +83,13 @@ const Header = () => {
         </div>
 
         <div className='relative'>
-          {walletConnected ? (
+          {isConnected ? (
             <DropdownMenu open={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger asChild>
                 <Button className='text-xl flex items-center justify-center h-[50px]'>
-                  {formatWalletAddress(walletAddress)}
+                  {username
+                    ? `${username}`
+                    : formatWalletAddress('983FA4219ABC0A91')} {/* Example wallet address */}
                 </Button>
               </DropdownMenuTrigger>
 
@@ -106,7 +97,9 @@ const Header = () => {
                 <div className='p-4'>
                   <div className='flex justify-between items-center'>
                     <Button className='text-xl flex items-center justify-center h-[50px]'>
-                      {formatWalletAddress(walletAddress)}
+                      {username
+                        ? `${username}`
+                        : formatWalletAddress('983FA4219ABC0A91')}
                     </Button>
                     <CloseIcon
                       className='cursor-pointer text-white'
@@ -145,7 +138,7 @@ const Header = () => {
             </DropdownMenu>
           ) : (
             <Button
-              onClick={handleConnectWallet}
+              onClick={connectWallet}
               className='text-xl flex items-center justify-center h-[50px]'
             >
               Connect Wallet

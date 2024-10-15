@@ -3,6 +3,7 @@ import { IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { ReduxProvider } from '@/redux/redux-provider';
 import MainLayout from '@/components/layouts/main-layout';
+import { WalletProvider } from '@/context/WalletContext';
 
 const ibmPlexMono = IBM_Plex_Mono({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={ibmPlexMono.className + ' dark'}>
+        <WalletProvider>
         <ReduxProvider>
           <MainLayout>{children}</MainLayout>
         </ReduxProvider>
+        </WalletProvider>
       </body>
     </html>
   );

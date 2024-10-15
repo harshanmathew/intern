@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { UserNameIcon } from '@/lib/index-icons';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface ProfileBannerProps {
@@ -16,6 +17,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
   username,
   walletAddress,
 }) => {
+  const router = useRouter();
   return (
     <div className='my-profile w-full max-w-[900px] mx-auto bg-black/90 px-5 py-7 rounded-[10px]'>
       <div className='flex items-center gap-x-3'>
@@ -32,7 +34,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
             <span className='text-2xl'>{username}</span>
             <Button
               className='ml-5 text-xs h-[25px] border border-primary/50 hover:bg-primary'
-              onClick={() => console.log('Edit Profile Clicked')}
+              onClick={() => router.push('/my-profile/edit')}
             >
               Edit Profile <UserNameIcon className='ml-2 w-4 h-4' />
             </Button>
