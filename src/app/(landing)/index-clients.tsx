@@ -57,8 +57,8 @@ const extendedProjectDetails = [...Array(20)].map(
 
 const HomeIndexClients = () => {
   return (
-    <div className='pt-14'>
-      <h1>Top Trending Project</h1>
+    <div className='pt-7 lg:pt-14 pb-20'>
+      <h1 className='ml-4 lg:ml-0'>Top Trending Project</h1>
       <TrendingProjectsCarousel />
       <HighlightsBar />
       <section className='py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-[30px] place-items-center justify-content-center place-content-center'>

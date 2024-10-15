@@ -57,8 +57,9 @@ const Header = () => {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 flex items-center justify-between lg:px-[60px] xl:px-[104px] h-[120px] z-50 transition-colors',
-          isScrolled && 'bg-black/80 shadow-lg border-b border-primary/50'
+          'fixed top-0 left-0 right-0 px-4 lg:px-[60px] xl:px-[104px] lg:h-[100px] z-50 transition-colors',
+          (isScrolled || isMenuOpen) &&
+            'bg-black/80 shadow-lg border-b border-primary/50'
         )}
         ref={headerRef}
       >
@@ -156,5 +157,6 @@ const Header = () => {
     </>
   );
 };
+
 
 export default Header;

@@ -49,9 +49,10 @@ const TrendingProjectsCarousel = () => {
       className='w-full mt-5'
       opts={{
         align: 'start',
+        dragFree: true,
       }}
     >
-      <CarouselContent className=''>
+      <CarouselContent className='px-4 lg:px-0'>
         {modifiedTrendingProjects.map((item, index) => (
           <CarouselItem className='basis-[300px] pl-0 ml-4' key={index}>
             <TrendingProjectCard
@@ -63,8 +64,8 @@ const TrendingProjectsCarousel = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious variant='ghost' />
-      <CarouselNext variant='ghost' />
+      <CarouselPrevious className='hidden lg:inline-flex' variant='ghost' />
+      <CarouselNext className='hidden lg:inline-flex' variant='ghost' />
     </Carousel>
   );
 };

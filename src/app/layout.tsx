@@ -3,7 +3,8 @@ import { IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { ReduxProvider } from '@/redux/redux-provider';
 import MainLayout from '@/components/layouts/main-layout';
-import { WalletProvider } from '@/context/WalletContext';
+import { headers } from 'next/headers'; // added
+import ContextProvider from '@/context';
 
 const ibmPlexMono = IBM_Plex_Mono({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
@@ -22,14 +23,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookies = headers().get('cookie');
+
   return (
     <html lang='en'>
       <body className={ibmPlexMono.className + ' dark'}>
-        <WalletProvider>
-        <ReduxProvider>
-          <MainLayout>{children}</MainLayout>
-        </ReduxProvider>
-        </WalletProvider>
+        <ContextProvider cookies={cookies}>
+          <ReduxProvider>
+            <MainLayout>{children}</MainLayout>
+          </ReduxProvider>
+        </ContextProvider>
       </body>
     </html>
   );
