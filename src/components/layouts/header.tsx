@@ -87,7 +87,7 @@ const Header = () => {
             />
             <NavLink
               active={pathname === '/rewards'}
-              href='/rewards'
+              href='https://rewards.sharbi.net/'
               label='Rewards'
             />
           </nav>
