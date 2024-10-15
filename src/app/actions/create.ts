@@ -12,6 +12,7 @@ interface CreateTokenParams {
   twitterLink?: string;
   telegramLink?: string;
   websiteLink?: string;
+  donate2Percent?: 'yes' | 'no';
   launched?: boolean;
 }
 
@@ -36,6 +37,7 @@ export const createToken = async (params: CreateTokenParams) => {
       telegramLink: params.telegramLink,
       websiteLink: params.websiteLink,
       launched: params.launched,
+      donate2Percent: params.donate2Percent,
     };
 
     // Send the POST request to create the token using fetchData

@@ -376,6 +376,10 @@
             "type": "string",
             "example": "https://myawesometoken.com"
           },
+          "donate": {
+            "type": "string",
+            "example": "yes"
+          },
           "launched": {
             "type": "boolean",
             "example": false
@@ -432,6 +436,13 @@
           },
           "launched": {
             "type": "boolean"
+          },
+          "donate": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ]
           }
         },
         "required": [
@@ -446,7 +457,8 @@
           "twitterLink",
           "telegramLink",
           "websiteLink",
-          "launched"
+          "launched",
+          "donate"
         ]
       }
     }

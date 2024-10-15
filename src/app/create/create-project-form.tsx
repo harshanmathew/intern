@@ -32,6 +32,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
+import isAuth from '@/components/isAuth';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -57,6 +58,7 @@ const formSchema = z.object({
   bondingCurve: z.enum(['beginner', 'pro'], {
     errorMap: () => ({ message: 'Select a bonding curve' }),
   }),
+  donate2Percent: z.enum(['yes', 'no']),
   twitterLink: z.string().url('Invalid URL').optional().or(z.literal('')),
   telegramLink: z.string().url('Invalid URL').optional().or(z.literal('')),
   websiteLink: z.string().url('Invalid URL').optional().or(z.literal('')),
@@ -77,6 +79,7 @@ const CreateProjectForm = () => {
       tokenSupply: 0,
       initialBuyAmount: 0,
       bondingCurve: 'beginner',
+      donate2Percent: 'yes',
       twitterLink: '',
       telegramLink: '',
       websiteLink: '',
@@ -400,6 +403,56 @@ const CreateProjectForm = () => {
                 </FormItem>
               )}
             />
+
+            {/* Donate 2% Supply Selection */}
+            <FormField
+              control={form.control}
+              name='donate2Percent'
+              render={({ field }) => (
+                <FormItem className='mt-7 lg:mt-10'>
+                  <FormLabel>Donate 2% Supply</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      className='flex flex-col sm:flex-row gap-4'
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <div className='flex-1'>
+                        <RadioGroupItem
+                          className='peer sr-only'
+                          id='donateYes'
+                          value='yes'
+                        />
+                        <Label
+                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                          htmlFor='donateYes'
+                        >
+                          <span className='text-sm lg:text-lg'>
+                            Yes, I want the benefits
+                          </span>
+                        </Label>
+                      </div>
+                      <div className='flex-1'>
+                        <RadioGroupItem
+                          className='peer sr-only'
+                          id='donateNo'
+                          value='no'
+                        />
+                        <Label
+                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                          htmlFor='donateNo'
+                        >
+                          <span className='text-sm lg:text-lg'>
+                            No, I don't need them
+                          </span>
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         )}
       </form>
@@ -407,4 +460,4 @@ const CreateProjectForm = () => {
   );
 };
 
-export default CreateProjectForm;
+export default isAuth(CreateProjectForm);

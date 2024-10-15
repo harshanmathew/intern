@@ -34,6 +34,8 @@ export interface CreateTokenDto {
   bondingCurve: CreateTokenDtoBondingCurveEnum;
   /** @example "This is a revolutionary new token for awesome people." */
   description: string;
+  /** @example "yes" */
+  donate?: string;
   /** @example "https://example.com/token-image.png" */
   image: string;
   /** @example 1000 */
@@ -67,6 +69,7 @@ export interface Token {
   _id: string;
   bondingCurve: TokenBondingCurveEnum;
   description: string;
+  donate: TokenDonateEnum;
   image: string;
   initialBuyAmount: number;
   launched: boolean;
@@ -79,6 +82,8 @@ export interface Token {
 }
 
 export type TokenBondingCurveEnum = 'beginner' | 'pro';
+
+export type TokenDonateEnum = 'yes' | 'no';
 
 export type TokensControllerCreateData = Token;
 
