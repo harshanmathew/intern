@@ -1,31 +1,6 @@
 import { ofetch } from 'ofetch';
+import type { paths } from '@/types/schema';
 import createClient, { type Middleware } from 'openapi-fetch';
-import type { paths } from '../../../services/api/schema';
-
-export const fetchData = async (
-  url: string,
-  method = 'GET',
-  body: any = null
-) => {
-  const token = localStorage.getItem('token');
-  try {
-    return await ofetch(url, {
-      method,
-      // biome-ignore lint/style/useNamingConvention: <explanation>
-      // eslint-disable-next-line dot-notation
-      baseURL: `${process.env['NEXT_PUBLIC_API_URL']}/`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body,
-      parseResponse: JSON.parse,
-    });
-  } catch (error: any) {
-    console.error(error);
-    throw new Error(error.data.message);
-  }
-};
 
 export const uploadFile = async (file: File) => {
   const token = localStorage.getItem('token');
@@ -62,12 +37,12 @@ const myMiddleware: Middleware = {
   },
 };
 
-const client = createClient<paths>({
+const apiClient = createClient<paths>({
   // eslint-disable-next-line dot-notation
   baseUrl: `${process.env['NEXT_PUBLIC_API_URL']}/`,
 });
 
 // register middleware
-client.use(myMiddleware);
+apiClient.use(myMiddleware);
 
-export default client;
+export default apiClient;

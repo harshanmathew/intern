@@ -1,12 +1,12 @@
-import { fetchData } from './api';
+import apiClient from './api';
 
 export async function me() {
   try {
-    const response = await fetchData('/me');
+    const { data } = await apiClient.GET('/me');
 
-    console.log({ response });
+    console.log({ data });
 
-    return response;
+    return data;
   } catch (error) {
     console.error(error);
     return null;

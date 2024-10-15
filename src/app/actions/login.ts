@@ -6,17 +6,17 @@ export async function login(
   signature?: string,
   referralCode: string = ''
 ) {
-  const { data, error } = await client.POST('/auth/login', {
-    body: {
-      address,
-      message,
-      signature,
-      referralCode,
-    },
-  });
-  console.log({ data });
-  if (error) {
-    throw new Error(error);
+  try {
+    const { data } = (await client.POST('/auth/login', {
+      body: {
+        address,
+        message,
+        signature,
+        referralCode,
+      },
+    })) as { data: { accessToken: string } };
+    return data;
+  } catch (error) {
+    console.log('🚀 ~ error:', error);
   }
-  return data;
 }

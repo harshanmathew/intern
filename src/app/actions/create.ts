@@ -1,5 +1,5 @@
 import { handleFileUpload } from './fileuploader';
-import { fetchData } from './api';
+import apiClient from './api';
 
 interface CreateTokenParams {
   name: string;
@@ -41,8 +41,10 @@ export const createToken = async (params: CreateTokenParams) => {
     };
 
     // Send the POST request to create the token using fetchData
-    const response = await fetchData('tokens', 'POST', tokenData);
-    return response;
+    const { data } = await apiClient.POST('/tokens', {
+      body: tokenData,
+    });
+    return data;
   } catch (error) {
     console.error('Error creating token:', error);
     throw error;
