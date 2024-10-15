@@ -1,4 +1,4 @@
-import { fetchData } from './api';
+import client from './api';
 
 export async function login(
   address?: string,
@@ -6,19 +6,17 @@ export async function login(
   signature?: string,
   referralCode: string = ''
 ) {
-  try {
-    const response = await fetchData('/auth/login', 'POST', {
+  const { data, error } = await client.POST('/auth/login', {
+    body: {
       address,
       message,
       signature,
       referralCode,
-    });
-
-    console.log({ response });
-
-    return response;
-  } catch (error) {
-    console.error(error);
-    return null;
+    },
+  });
+  console.log({ data });
+  if (error) {
+    throw new Error(error);
   }
+  return data;
 }

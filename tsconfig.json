@@ -27,6 +27,7 @@
     "noUnusedParameters": true,
     "noPropertyAccessFromIndexSignature": true,
     "allowImportingTsExtensions": true,
+    "noUncheckedIndexedAccess": true,
     "verbatimModuleSyntax": true,
     "noFallthroughCasesInSwitch": true
   },

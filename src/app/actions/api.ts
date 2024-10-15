@@ -1,4 +1,6 @@
 import { ofetch } from 'ofetch';
+import createClient, { type Middleware } from 'openapi-fetch';
+import type { paths } from '../../../services/api/schema';
 
 export const fetchData = async (
   url: string,
@@ -50,3 +52,22 @@ export const uploadFile = async (file: File) => {
     throw new Error(error.data?.message || 'File upload failed');
   }
 };
+
+const myMiddleware: Middleware = {
+  async onRequest({ request }) {
+    const token = localStorage.getItem('token');
+    request.headers.set('Authorization', `Bearer ${token}`);
+    request.headers.set('Content-Type', 'application/json');
+    return request;
+  },
+};
+
+const client = createClient<paths>({
+  // eslint-disable-next-line dot-notation
+  baseUrl: `${process.env['NEXT_PUBLIC_API_URL']}/`,
+});
+
+// register middleware
+client.use(myMiddleware);
+
+export default client;
