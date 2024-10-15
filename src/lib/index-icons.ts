@@ -10,3 +10,5 @@ export { default as DescriptionIcon } from '@/public/svg/forms/description.svg';
 export { default as TickerIcon } from '@/public/svg/forms/ticker.svg';
 export { default as ImageInputIcon } from '@/public/svg/forms/image-input.svg';
 export { default as UserNameIcon } from '@/public/svg/forms/username.svg';
+export { default as CloseIcon } from '@/public/svg/close-square.svg';
+// export { default as GlobeIcon } from '@/public/svg/global.svg';
