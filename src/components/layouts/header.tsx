@@ -9,13 +9,11 @@ import { cn } from '@/lib/utils';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
-// New imports
-import { usePersonStore } from '@/hooks/user';
+import { usePersonStore } from '@/hooks/usePersonStore';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { useDisconnect, useSignMessage } from 'wagmi';
 import { me } from '@/app/actions/api/me';
 import { login } from '@/app/actions/api/login';
-// import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const headerRef = useRef(null);

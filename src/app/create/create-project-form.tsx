@@ -33,7 +33,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import isAuth from '@/components/isAuth';
-import { useLaunchToken } from '@/hooks/launchToken';
+import { useLaunchToken } from '@/hooks/useLaunchToken';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -70,7 +70,6 @@ const CreateProjectForm = () => {
   const [image, setImage] = useState('');
   const [isShowMoreInputs, setShowMoreInputs] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

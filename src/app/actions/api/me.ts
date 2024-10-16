@@ -2,7 +2,9 @@ import apiClient from './api';
 
 export async function me() {
   try {
-    const { data } = await apiClient.GET('/me');
+    const { data } = (await apiClient.GET('/me')) as {
+      data: { address: string };
+    };
 
     console.log({ data });
 
