@@ -3,7 +3,12 @@ import apiClient from './api';
 export async function me() {
   try {
     const { data } = (await apiClient.GET('/me')) as {
-      data: { address: string };
+      data: {
+        name: 'string';
+        username: 'string';
+        address: 'string';
+        profileImage: 'string';
+      };
     };
 
     console.log({ data });

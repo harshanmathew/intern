@@ -6,6 +6,7 @@ import Input from '@/components/atoms/input';
 import InputImage from '@/components/atoms/input-image';
 import { UserNameIcon } from '@/lib/index-icons';
 import { useRouter } from 'next/navigation';
+import isAuth from '@/components/isAuth';
 
 interface ProfileData {
   username: string;
@@ -62,7 +63,7 @@ const ProfileForm = ({ action }: { action: string }) => {
 
   return (
     <div className='pt-7 pb-[30vh]'>
-      <BackHomeNavbar />
+      <BackHomeNavbar navLink='/my-profile' navText='My Profile' />
       <div className='max-w-[600px] mx-auto bg-black/90 p-4 py-6 border border-primary/50 rounded-[10px]'>
         <h1 className='text-2xl font-bold text-center uppercase'>
           {isEditMode ? 'Edit your profile' : 'Create your profile'}
@@ -70,21 +71,21 @@ const ProfileForm = ({ action }: { action: string }) => {
         <form onSubmit={handleSubmit}>
           <InputImage
             image={formData.image}
-            onImageChange={handleImageChange}
             imgWrapperClass='w-[180px] h-[180px]'
+            onImageChange={handleImageChange}
             rootClass='mt-7 block mx-auto'
           />
           <Input
-            name='username'
             label='Username'
             labelIcon={<UserNameIcon className='w-[20px]' />}
-            value={formData.username}
+            name='username'
             onChange={handleInputChange}
             rootClass='mt-7'
+            value={formData.username}
           />
           <button
-            type='submit'
             className='mt-5 w-full bg-primary text-white py-2 rounded-lg'
+            type='submit'
           >
             {isEditMode ? 'Update Profile' : 'Create Profile'}
           </button>
@@ -94,4 +95,4 @@ const ProfileForm = ({ action }: { action: string }) => {
   );
 };
 
-export default ProfileForm;
+export default isAuth(ProfileForm);

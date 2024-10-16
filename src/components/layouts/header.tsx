@@ -14,13 +14,14 @@ import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { useDisconnect, useSignMessage } from 'wagmi';
 import { me } from '@/app/actions/api/me';
 import { login } from '@/app/actions/api/login';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
-
+  const router = useRouter();
   // New state and hooks
   const { open } = useAppKit();
   const { address, isConnected, status } = useAppKitAccount();
@@ -28,6 +29,12 @@ const Header = () => {
   const { setIsLogged, isLogged } = usePersonStore();
   const { signMessage, data, error } = useSignMessage();
   const [currentMessage, setCurrentMessage] = useState('');
+  const [userData, setUserData] = useState<{
+    name: string;
+    username: string;
+    address: string;
+    profileImage: string;
+  } | null>(null);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -95,6 +102,7 @@ const Header = () => {
   const checkUserLoggedIn = async () => {
     try {
       const data = await me();
+      setUserData(data);
       return data?.address === address;
     } catch {
       return false;
@@ -116,6 +124,9 @@ const Header = () => {
       if (res?.accessToken) {
         localStorage.setItem('token', res.accessToken);
         setIsLogged(true);
+        if (!userData?.username) {
+          router.push('/my-profile/create');
+        }
       } else {
         handleLogOut();
       }

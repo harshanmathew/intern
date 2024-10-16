@@ -1,5 +1,6 @@
 'use client';
 
+import isAuth from '@/components/isAuth';
 import { Button } from '@/components/ui/button';
 import { UserNameIcon } from '@/lib/index-icons';
 import Image from 'next/image';
@@ -23,10 +24,10 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
       <div className='flex items-center gap-x-3'>
         <div className='w-[120px] h-[116px] relative overflow-hidden rounded-[10px]'>
           <Image
-            src={imgUrl}
-            fill
-            className='object-cover'
             alt='Profile Image'
+            className='object-cover'
+            fill
+            src={imgUrl}
           />
         </div>
         <div className='ml-[25px]'>
@@ -56,4 +57,4 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
   );
 };
 
-export default ProfileBanner;
+export default isAuth(ProfileBanner);
