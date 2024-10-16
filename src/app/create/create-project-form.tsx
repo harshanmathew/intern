@@ -69,7 +69,6 @@ const CreateProjectForm = () => {
   const [image, setImage] = useState('');
   const [isShowMoreInputs, setShowMoreInputs] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

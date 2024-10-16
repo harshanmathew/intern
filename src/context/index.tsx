@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 // context/index.tsx
 'use client';
 
@@ -8,14 +9,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { createAppKit } from '@reown/appkit/react';
-import {
-  mainnet,
-  arbitrum,
-  avalanche,
-  base,
-  optimism,
-  polygon,
-} from '@reown/appkit/networks';
+import { shibarium, shibariumTestnet } from '@reown/appkit/networks';
 import React, { type ReactNode } from 'react';
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -46,13 +40,18 @@ const metadata = {
   icons: ['https://assets.reown.com/reown-profile-pic.png'],
 };
 
-// Create the modal
 export const modal = createAppKit({
   adapters: [wagmiAdapter],
 
   projectId,
-  networks: [mainnet, arbitrum, avalanche, base, optimism, polygon],
-  defaultNetwork: mainnet,
+  networks:
+    process.env['NEXT_PUBLIC_CHAIN'] === 'mainnet'
+      ? [shibarium]
+      : [shibariumTestnet],
+  defaultNetwork:
+    process.env['NEXT_PUBLIC_CHAIN'] === 'mainnet'
+      ? shibarium
+      : shibariumTestnet,
   metadata: metadata,
   features: {
     email: false, // default to true
