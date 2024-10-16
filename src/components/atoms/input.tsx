@@ -37,7 +37,10 @@ const Input: React.FC<InputTypes> = ({
           <div className='flex items-center gap-x-2 pl-2'>
             {labelIcon}
             <span
-              className={cn('ml-1 text-lg lg:text-xl leading-none', labelClass)}
+              className={cn(
+                'ml-1 text-base lg:text-lg leading-none',
+                labelClass
+              )}
             >
               {label} {required && <sup className='ml-[-10px]'>*</sup>}
             </span>
