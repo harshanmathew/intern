@@ -2,6 +2,7 @@
 
 import ProfileBanner from './components/ProfileBanner';
 import DataList from './components/DataList';
+import isAuth from '@/components/isAuth';
 
 const ProfilePage = () => {
   return (
@@ -19,4 +20,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default isAuth(ProfilePage);
