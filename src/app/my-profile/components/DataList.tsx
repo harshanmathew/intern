@@ -10,8 +10,8 @@ const DataList = () => (
       .fill(null)
       .map((_, idx) => (
         <DataItem
-          key={idx}
           imgUrl='/temp/trending-project1.jpg'
+          key={idx}
           transaction='Bought'
         />
       ))}
@@ -26,15 +26,17 @@ const DataItem = ({
   transaction: 'Bought' | 'Sold';
   imgUrl: string;
 }) => (
-  <div className='flex items-center border-b border-white/25 py-3'>
-    TE7j...Ez3U <span className='text-secondary'>{transaction}</span> 500 BONE
-    of $UGLY
+  <div className='flex lg:flex-row items-center border-b border-white/25 py-3'>
+    <div className=''>
+      TE7j...Ez3U <span className='text-secondary'>{transaction}</span> 500 BONE
+      of $UGLY
+    </div>
     <Image
+      alt='Coin'
+      className='lg:ml-3 rounded lg:mt-5'
+      height={50}
       src={imgUrl}
       width={50}
-      height={50}
-      className='ml-3 rounded'
-      alt='Coin'
     />
   </div>
 );

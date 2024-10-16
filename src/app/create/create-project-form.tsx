@@ -32,7 +32,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import isAuth from '@/components/isAuth';
+// import isAuth from '@/components/isAuth';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -459,4 +459,4 @@ const CreateProjectForm = () => {
   );
 };
 
-export default isAuth(CreateProjectForm);
+export default CreateProjectForm;
