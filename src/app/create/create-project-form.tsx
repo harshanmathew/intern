@@ -93,10 +93,10 @@ const CreateProjectForm = () => {
   const launchData = {
     name: form.watch('name'),
     symbol: form.watch('ticker'),
-    totalSupply: BigInt(form.watch('tokenSupply') || 0),
+    totalSupply: BigInt(form.watch('tokenSupply') * 10 ** 18 || 0),
     curveSize: form.watch('bondingCurve') === 'beginner' ? 0 : 1,
     makeDonation: form.watch('donate2Percent') === 'yes',
-    initialBuy: BigInt(Math.floor(form.watch('initialBuyAmount') || 0)),
+    initialBuy: BigInt((form.watch('initialBuyAmount') ?? 0) * 10 ** 18),
   };
 
   // Use the launchData in the hook
