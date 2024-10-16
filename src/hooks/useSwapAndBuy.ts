@@ -6,13 +6,13 @@ import {
 } from 'wagmi';
 import { sharbiFunAbi, contractAddress } from '@/lib/constants/sharbi-fun.abi';
 
-interface SwapAndBuyData {
+type SwapAndBuyData = {
   funTokenAddress: `0x${string}`;
   paymentToken: `0x${string}`;
   amountIn: bigint;
   minBoneOut: bigint;
   minFunTokenOut: bigint;
-}
+};
 
 export function useSwapAndBuy(swapData: SwapAndBuyData) {
   const [isSimulateLoading, setIsSimulateLoading] = useState(false);
