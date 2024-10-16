@@ -13,8 +13,8 @@ import Link from 'next/link';
 import { usePersonStore } from '@/hooks/user';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { useDisconnect, useSignMessage } from 'wagmi';
-import { me } from '@/app/actions/me';
-import { login } from '@/app/actions/login';
+import { me } from '@/app/actions/api/me';
+import { login } from '@/app/actions/api/login';
 // import { useRouter } from 'next/navigation';
 
 const Header = () => {
@@ -30,27 +30,6 @@ const Header = () => {
   const { setIsLogged, isLogged } = usePersonStore();
   const { signMessage, data, error } = useSignMessage();
   const [currentMessage, setCurrentMessage] = useState('');
-  // const router = useRouter();
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
-
-  // if user is not connected, redirect to /start
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     const url = pathname + searchParams.toString();
-  //     console.log('Route changed to:', url);
-
-  //     if (!isConnected) {
-  //       router.push('/start');
-  //     }
-  //   };
-  //   handleRouteChange();
-  //   window.addEventListener('popstate', handleRouteChange);
-
-  //   return () => {
-  //     window.removeEventListener('popstate', handleRouteChange);
-  //   };
-  // }, [pathname, searchParams, router]);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');

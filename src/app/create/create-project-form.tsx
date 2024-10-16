@@ -17,10 +17,10 @@ import {
 } from '@/lib/index-icons';
 import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { createToken } from '../actions/create';
+import { createToken } from '../actions/api/create';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -33,6 +33,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import isAuth from '@/components/isAuth';
+import { useLaunchToken } from '@/hooks/launchToken';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -69,6 +70,8 @@ const CreateProjectForm = () => {
   const [image, setImage] = useState('');
   const [isShowMoreInputs, setShowMoreInputs] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,9 +85,48 @@ const CreateProjectForm = () => {
       twitterLink: '',
       telegramLink: '',
       websiteLink: '',
-      imageFile: undefined, // Added this field
+      imageFile: undefined,
     },
   });
+
+  // Prepare launchData by watching form values
+  const launchData = {
+    name: form.watch('name'),
+    symbol: form.watch('ticker'),
+    totalSupply: BigInt(form.watch('tokenSupply') || 0),
+    curveSize: form.watch('bondingCurve') === 'beginner' ? 0 : 1,
+    makeDonation: form.watch('donate2Percent') === 'yes',
+    initialBuy: BigInt(Math.floor(form.watch('initialBuyAmount') || 0)),
+  };
+
+  // Use the launchData in the hook
+  const {
+    isLoading: isLaunchLoading,
+    isSuccess: isLaunchSuccess,
+    hash,
+    execute,
+  } = useLaunchToken(launchData);
+
+  // Monitor launch success and call the API when the transaction is confirmed
+  useEffect(() => {
+    if (isLaunchSuccess && hash) {
+      // Call the createToken API with the form data and transaction hash
+      createToken({
+        ...form.getValues(),
+        imageFile: form.getValues().imageFile[0],
+        launched: true,
+        transactionHash: hash,
+      })
+        .then((result) => {
+          console.log('createToken result:', result);
+          // Handle success (e.g., navigate to a success page or display a message)
+        })
+        .catch((error) => {
+          console.error('Failed to create token:', error);
+          // Handle error (e.g., display an error message)
+        });
+    }
+  }, [isLaunchSuccess, hash]);
 
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -97,21 +139,14 @@ const CreateProjectForm = () => {
     console.log('Form submission started');
     console.log('Form data:', data);
     setIsSubmitting(true);
+
     try {
-      console.log('Calling createToken function');
-      const result = await createToken({
-        ...data,
-        imageFile: data.imageFile[0],
-        launched: false,
-      });
-      console.log('createToken result:', result);
-      // Handle success (e.g., navigate to a success page or display a message)
-      console.log('Token created successfully');
-      // You might want to add a success message or redirect here
+      // Execute without arguments
+      await execute();
+      console.log('Token launch initiated');
     } catch (error) {
-      console.error('Failed to create token:', error);
+      console.error('Failed to launch token:', error);
       // Handle error (e.g., display an error message)
-      // You might want to add an error message here
     } finally {
       setIsSubmitting(false);
       console.log('Form submission ended');
@@ -315,11 +350,13 @@ const CreateProjectForm = () => {
           </span>
           <Button
             className='text-lg lg:text-2xl w-full font-bold h-[60px] lg:h-[70px] mt-1'
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLaunchLoading}
             type='submit'
             variant={'secondary'}
           >
-            {isSubmitting ? 'Launching...' : 'Launch Your Project Now'}
+            {isSubmitting || isLaunchLoading
+              ? 'Launching...'
+              : 'Launch Your Project Now'}
           </Button>
         </div>
 
