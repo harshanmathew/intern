@@ -3,7 +3,7 @@
  * Do not make direct changes to the file.
  */
 
-export interface paths {
+export type paths = {
     "/me": {
         parameters: {
             query?: never;
@@ -109,11 +109,34 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-}
+};
 export type webhooks = Record<string, never>;
-export interface components {
+export type components = {
     schemas: {
-        UpdateUserDto: Record<string, never>;
+        User: {
+            name: string;
+            username: string;
+            address: string;
+            profileImage: string;
+        };
+        UpdateUserDto: {
+            /** @example John Doe */
+            name: string;
+            /** @example johndoe */
+            username: string;
+            /** @example https://example.com/profile-image.png */
+            profileImage: string;
+        };
+        LoginResponse: {
+            /** @example true */
+            isValid: boolean;
+            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI... */
+            accessToken: string;
+            /** @example Invalid signature */
+            error: string;
+            /** @example 0xAbb6c94E23cdA58BfB0ee135Eb974fAC4D0afcA7 */
+            addressFromSignature: string;
+        };
         CreateTokenDto: {
             /** @example My Awesome Token */
             name: string;
@@ -121,6 +144,8 @@ export interface components {
             ticker: string;
             /** @example This is a revolutionary new token for awesome people. */
             description: string;
+            /** @example 0x0 */
+            transactionHash: string;
             /** @example https://example.com/token-image.png */
             image: string;
             /** @example 1000000 */
@@ -147,6 +172,7 @@ export interface components {
             _id: string;
             name: string;
             ticker: string;
+            address: string;
             description: string;
             image: string;
             tokenSupply: number;
@@ -159,6 +185,7 @@ export interface components {
             launched: boolean;
             /** @enum {string} */
             donate: "yes" | "no";
+            transactionHash: string;
         };
     };
     responses: never;
@@ -166,7 +193,7 @@ export interface components {
     requestBodies: never;
     headers: never;
     pathItems: never;
-}
+};
 export type $defs = Record<string, never>;
 export interface operations {
     MeController_findMe: {
@@ -183,7 +210,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
             };
             /** @description Unauthorized. */
             401: {
@@ -244,21 +273,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
-            };
-            /** @description Unauthorized. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
+                content: {
+                    "application/json": components["schemas"]["User"];
                 };
-                content?: never;
-            };
-            /** @description User not found. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -269,33 +286,15 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /**
-                     * @description Wallet address
-                     * @example 0xAbb6c94E23cdA58BfB0ee135Eb974fAC4D0afcA7
-                     */
-                    address?: string;
-                    /**
-                     * @description Signature
-                     * @example 0xc68245bb2cf6993a3ee9d14f3ebeb25e28bf207b02ea53bae9d506bb9457634306027368eb9db7ad44bec38cf1516afecbe68c6165d9e87e20d4e0309d0d8e121b
-                     */
-                    signature?: string;
-                    /**
-                     * @description Message that was signed
-                     * @example Signing this message at : <replace with timestamp>
-                     */
-                    message?: string;
-                };
-            };
-        };
+        requestBody?: never;
         responses: {
-            201: {
+            default: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["LoginResponse"];
+                };
             };
         };
     };
@@ -374,20 +373,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Token"];
                 };
-            };
-            /** @description Bad Request. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };

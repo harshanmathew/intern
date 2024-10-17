@@ -13,9 +13,13 @@ export async function updateUser(params: UpdateUserParams) {
     if (!uploadResponse) {
       throw new Error('Image upload failed');
     }
-
+    const userData = {
+      name: params.username,
+      username: params.username,
+      profileImage: uploadResponse.uploadUrl,
+    };
     const { data } = await client.PATCH('/me', {
-      body: {},
+      body: userData,
     });
 
     return data;
