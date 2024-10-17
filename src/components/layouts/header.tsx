@@ -15,6 +15,7 @@ import { useDisconnect, useSignMessage } from 'wagmi';
 import { me } from '@/app/actions/api/me';
 import { login } from '@/app/actions/api/login';
 import { useRouter } from 'next/navigation';
+import { ProfileDropdown } from '../atoms/profile-dropdown';
 
 const Header = () => {
   const headerRef = useRef(null);
@@ -169,16 +170,16 @@ const Header = () => {
                   ? 'Loading...'
                   : 'Connect Wallet'}
             </Button>
-
-            <ProfileDropdown>
-              <Button
-                className='lg:w-[50px] lg:h-[50px] hidden lg:flex lg:bg-[#292D32]'
-                variant={'ghost'}
-              >
-                <ChevronDown className='w-[24px] h-auto shrink-0' />
-              </Button>
-            </ProfileDropdown>
-
+            {isConnected && (
+              <ProfileDropdown>
+                <Button
+                  className='lg:w-[50px] lg:h-[50px] hidden lg:flex lg:bg-[#292D32]'
+                  variant={'ghost'}
+                >
+                  <ChevronDown className='w-[24px] h-auto shrink-0' />
+                </Button>
+              </ProfileDropdown>
+            )}
             {isMenuOpen ? (
               <X
                 className='w-[20px] h-auto text-white lg:hidden'

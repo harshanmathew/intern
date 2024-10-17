@@ -54,7 +54,8 @@ export const modal = createAppKit({
   metadata: metadata,
   features: {
     email: false, // default to true
-    socials: ['google', 'x', 'farcaster'],
+    socials: [],
+    // socials: ['google', 'x', 'farcaster'],
     emailShowWallets: true, // default to true
     analytics: true, // Optional - defaults to your Cloud configuration
   },
