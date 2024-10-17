@@ -17,7 +17,7 @@ export default function withAuth<P extends object>(
     useEffect(() => {
       const token = localStorage.getItem('token');
       const decodedToken = token ? jose.decodeJwt(token) : null;
-      const auth = isConnected && decodedToken;
+      const auth = decodedToken;
       setIsAuthenticated(!!auth);
 
       if (!auth) {

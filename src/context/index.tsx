@@ -12,7 +12,6 @@ import { createAppKit } from '@reown/appkit/react';
 import { shibarium, shibariumTestnet } from '@reown/appkit/networks';
 import React, { type ReactNode } from 'react';
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // Set up queryClient
 const queryClient = new QueryClient({
@@ -78,10 +77,7 @@ function ContextProvider({
       config={wagmiAdapter.wagmiConfig as Config}
       initialState={initialState}
     >
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
 }

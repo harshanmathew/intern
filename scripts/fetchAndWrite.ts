@@ -9,6 +9,6 @@ if (!url) {
 
 url += '/api-json';
 
-// await $`rm ../src/types/schema.d.ts`;
+await $`rm ./src/types/schema.d.ts`;
 
-await $`bunx openapi-typescript ${url} -o ../src/types/schema.d.ts`;
+await $`bunx openapi-typescript ${url} -t -o ./src/types/schema.d.ts`;

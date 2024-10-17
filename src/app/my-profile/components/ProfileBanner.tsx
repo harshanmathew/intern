@@ -1,5 +1,6 @@
 'use client';
 
+import isAuth from '@/components/isAuth';
 import { Button } from '@/components/ui/button';
 import { UserNameIcon } from '@/lib/index-icons';
 import Image from 'next/image';
@@ -58,4 +59,4 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
   );
 };
 
-export default ProfileBanner;
+export default isAuth(ProfileBanner);

@@ -33,6 +33,7 @@ type HighlightItemType = {
 
 type BackHomeNavbarType = {
   navLink?: string;
+  navText?: string;
   children?: React.ReactNode;
 };
 

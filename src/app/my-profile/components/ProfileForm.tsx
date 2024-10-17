@@ -6,6 +6,7 @@ import Input from '@/components/atoms/input';
 import InputImage from '@/components/atoms/input-image';
 import { UserNameIcon } from '@/lib/index-icons';
 import { useRouter } from 'next/navigation';
+import isAuth from '@/components/isAuth';
 
 interface ProfileData {
   username: string;
@@ -41,7 +42,7 @@ const ProfileForm = ({ action }: { action: string }) => {
     if (files && files[0]) {
       setFormData((prev) => ({
         ...prev,
-        image: URL.createObjectURL(files[0]),
+        image: files[0] ? URL.createObjectURL(files[0]) : prev.image,
       }));
     }
   };
@@ -61,8 +62,8 @@ const ProfileForm = ({ action }: { action: string }) => {
   };
 
   return (
-    <div className='pt-7 px-4 pb-[30vh]'>
-      <BackHomeNavbar />
+    <div className='pt-7 pb-[30vh]'>
+      <BackHomeNavbar navLink='/my-profile' navText='My Profile' />
       <div className='max-w-[600px] mx-auto bg-black/90 p-4 py-6 border border-primary/50 rounded-[10px]'>
         <h1 className='text-2xl font-bold text-center uppercase'>
           {isEditMode ? 'Edit your profile' : 'Create your profile'}
@@ -94,4 +95,4 @@ const ProfileForm = ({ action }: { action: string }) => {
   );
 };
 
-export default ProfileForm;
+export default isAuth(ProfileForm);

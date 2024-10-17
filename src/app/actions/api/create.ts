@@ -14,6 +14,7 @@ interface CreateTokenParams {
   websiteLink?: string;
   donate2Percent?: 'yes' | 'no';
   launched?: boolean;
+  transactionHash?: string;
 }
 
 export const createToken = async (params: CreateTokenParams) => {
@@ -38,6 +39,7 @@ export const createToken = async (params: CreateTokenParams) => {
       websiteLink: params.websiteLink,
       launched: params.launched,
       donate2Percent: params.donate2Percent,
+      transactionHash: params.transactionHash,
     };
 
     // Send the POST request to create the token using fetchData

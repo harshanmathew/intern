@@ -9,19 +9,19 @@ import { cn } from '@/lib/utils';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePersonStore } from '@/hooks/user';
+import { usePersonStore } from '@/hooks/usePersonStore';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { useDisconnect, useSignMessage } from 'wagmi';
-import { me } from '@/app/actions/me';
-import { login } from '@/app/actions/login';
-import { ProfileDropdown } from '../atoms/profile-dropdown';
+import { me } from '@/app/actions/api/me';
+import { login } from '@/app/actions/api/login';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isShowHowToFun, setShowHowToFun] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
-
+  const router = useRouter();
   // New state and hooks
   const { open } = useAppKit();
   const { address, isConnected, status } = useAppKitAccount();
@@ -29,27 +29,12 @@ const Header = () => {
   const { setIsLogged, isLogged } = usePersonStore();
   const { signMessage, data, error } = useSignMessage();
   const [currentMessage, setCurrentMessage] = useState('');
-  // const router = useRouter();
-  // const pathname = usePathname();
-  // const searchParams = useSearchParams();
-
-  // if user is not connected, redirect to /start
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     const url = pathname + searchParams.toString();
-  //     console.log('Route changed to:', url);
-
-  //     if (!isConnected) {
-  //       router.push('/start');
-  //     }
-  //   };
-  //   handleRouteChange();
-  //   window.addEventListener('popstate', handleRouteChange);
-
-  //   return () => {
-  //     window.removeEventListener('popstate', handleRouteChange);
-  //   };
-  // }, [pathname, searchParams, router]);
+  const [userData, setUserData] = useState<{
+    name: string;
+    username: string;
+    address: string;
+    profileImage: string;
+  } | null>(null);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -116,6 +101,7 @@ const Header = () => {
   const checkUserLoggedIn = async () => {
     try {
       const data = await me();
+      setUserData(data);
       return data?.address === address;
     } catch {
       return false;
@@ -137,6 +123,9 @@ const Header = () => {
       if (res?.accessToken) {
         localStorage.setItem('token', res.accessToken);
         setIsLogged(true);
+        if (!userData?.username) {
+          router.push('/my-profile/create');
+        }
       } else {
         handleLogOut();
       }
