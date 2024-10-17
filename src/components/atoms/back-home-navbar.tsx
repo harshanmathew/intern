@@ -7,7 +7,7 @@ const BackHomeNavbar: React.FC<BackHomeNavbarType> = ({
   navLink = '/start',
 }) => {
   return (
-    <div className='w-full h-[50px] flex justify-start gap-x-10'>
+    <div className='w-full h-[50px] flex items-center justify-start gap-x-10'>
       <Link
         className='flex text-lg lg:text-2xl items-center gap-x-2'
         href={navLink}

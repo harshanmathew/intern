@@ -1,4 +1,5 @@
 import Input from '@/components/atoms/input';
+import { TokeDropdown } from '@/components/atoms/token-dropdown';
 import { Button } from '@/components/ui/button';
 import { BoneIcon } from '@/lib/index-icons';
 import { Settings } from 'lucide-react';
@@ -6,7 +7,7 @@ import React from 'react';
 
 const TradeNowComponent = () => {
   return (
-    <div className='border border-primary/50 w-full max-w-[500px] rounded-[10px] p-4'>
+    <div className='border border-primary/50 w-full lg:max-w-[500px] rounded-[10px] p-4'>
       <div className='flex gap-x-5'>
         <Button
           className='w-full bg-secondary rounded-[5px] flex-center text-black text-2xl'
@@ -28,7 +29,7 @@ const TradeNowComponent = () => {
           <Settings className='w-[18px] h-auto text-white cursor-pointer' />
         </div>
         <Input
-          inputClass='placeholder:text-white/50 h-[90px] pb-[30px] pl-6 pr-[15%] pt-2'
+          inputClass='placeholder:text-white/50 h-[80px] lg:h-[100px] pb-[30px] pl-6 pr-[15%] pt-2'
           placeholder='Enter the amount'
           required={false}
           rootClass='grow'
@@ -36,11 +37,13 @@ const TradeNowComponent = () => {
         <span className='absolute left-6 bottom-[20px] text-xs text-white/50 mt-1'>
           Balance: -- BONE
         </span>
-        <div className='absolute text-3xl flex items-center right-7 bottom-[30px] cursor-pointer'>
-          Bone <BoneIcon className='ml-5 w-[30px] h-auto' />
-        </div>
+        <TokeDropdown>
+          <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
+            BONE <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
+          </div>
+        </TokeDropdown>
       </div>
-      <div className='flex gap-x-2 mt-3'>
+      <div className='flex gap-x-2 mt-3 flex-wrap gap-y-2'>
         <Button className='px-3 h-[30px] bg-container' variant={'ghost'}>
           50 Bone
         </Button>

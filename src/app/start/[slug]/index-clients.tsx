@@ -10,14 +10,14 @@ import ProgressBar from '@/components/atoms/progress-bar';
 
 const IndexClientsTokenPage = () => {
   return (
-    <div className='pt-7'>
+    <div className='pt-7 px-4'>
       <BackHomeNavbar>
-        <Button className='w-[130px] h-[50px] text-white text-lg'>
+        <Button className='w-[130px] h-[40px] lg:h-[50px] text-white text-lg'>
           Fun Button
         </Button>
       </BackHomeNavbar>
       <TokenDetailsBanner
-        contract='Contract: 0x0da5Aae7F402f4aFbBdd045FaDCd447835983A91'
+        contract='0x0da5Aae7F402f4aFbBdd045FaDCd447835983A91'
         createdBy='TE7j...Ez3U'
         description="Introducing YACHT, the latest meme coin to hit the crypto scene! Packed with unique incentives and community-driven features. Sharbi Yacht offers more than just investment potential—it's a celebration of crypto culture."
         imgUrl='/temp/trending-project2.jpg'
@@ -52,14 +52,14 @@ const IndexClientsTokenPage = () => {
           },
         ]}
       />
-      <div className='grid grid-cols-[auto_500px] place-items-center gap-x-5 mt-5'>
-        <div className='grow' />
+      <div className='grid grid-col-1 lg:grid-cols-[auto_500px] gap-x-5 mt-5'>
+        {/* <div className='grow' /> */}
         <TradeNowComponent />
       </div>
-      <div className='grid grid-cols-[auto_500px] place-items-start gap-x-5 mt-5 pb-[40vh]'>
+      <div className='grid grid-cols-1 lg:grid-cols-[auto_500px] place-items-start gap-x-5 mt-5 pb-[40vh]'>
         <TradingHistory />
         <div>
-          <div className='pb-5'>
+          <div className='pb-2 lg:pb-0 pt-8 lg:pt-5'>
             <h4 className='text-xl text-white font-bold leading-none'>
               Bonding Curve Progress: 23%
             </h4>
