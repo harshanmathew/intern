@@ -269,12 +269,12 @@ const NavLinks = ({
           setShowHowToFun(!isShowHowToFun);
         }}
       />
-      <NavLink
+      {/* <NavLink
         active={pathname === '/rewards'}
         href='/rewards'
         key={4}
         label='Rewards'
-      />
+      /> */}
       <NavLink
         active={pathname === '/my-profile'}
         href='/my-profile'

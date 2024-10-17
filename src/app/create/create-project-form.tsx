@@ -32,6 +32,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
+import { TokeDropdown } from '@/components/atoms/token-dropdown';
 // import isAuth from '@/components/isAuth';
 
 // Define Zod schema for form validation
@@ -302,9 +303,11 @@ const CreateProjectForm = () => {
                 <span className='absolute left-3 lg:left-6 bottom-[20px] text-[10px] lg:text-xs text-white/50 mt-1'>
                   Balance: -- BONE
                 </span>
-                <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
-                  BONE <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
-                </div>
+                <TokeDropdown>
+                  <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
+                    BONE <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
+                  </div>
+                </TokeDropdown>
               </div>
               <FormMessage />
             </FormItem>
