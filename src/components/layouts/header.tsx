@@ -1,17 +1,41 @@
 'use client';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import Logo from '@/public/svg/logo.svg';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Logo from '@/public/svg/logo.svg?url';
 import NavLink from '../atoms/nav-link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import HowToHaveFunModal from '../how-to-have-fun.modal';
+import { ChevronDown, Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { usePersonStore } from '@/hooks/usePersonStore';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
+import { useDisconnect, useSignMessage } from 'wagmi';
+import { me } from '@/app/actions/api/me';
+import { login } from '@/app/actions/api/login';
+import { useRouter } from 'next/navigation';
+import { ProfileDropdown } from '../atoms/profile-dropdown';
 
 const Header = () => {
-  const pathname = usePathname();
-
   const headerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isShowHowToFun, setShowHowToFun] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  // New state and hooks
+  const { open } = useAppKit();
+  const { address, isConnected, status } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
+  const { setIsLogged, isLogged } = usePersonStore();
+  const { signMessage, data, error } = useSignMessage();
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [userData, setUserData] = useState<{
+    name: string;
+    username: string;
+    address: string;
+    profileImage: string;
+  } | null>(null);
 
   useEffect(() => {
     const sentinel = document.getElementById('sentinel');
@@ -19,7 +43,6 @@ const Header = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log({ entry });
           if (entry.isIntersecting) {
             setIsScrolled(false); // When the sentinel is visible
           } else {
@@ -41,52 +64,215 @@ const Header = () => {
     };
   }, []);
 
+  // New functions
+  const generateMessage = useCallback(() => {
+    const date = new Date().toISOString();
+    return 'Signing this message at : ' + date;
+  }, []);
+
+  const signUserMessage = useCallback(async () => {
+    const message = generateMessage();
+    setCurrentMessage(message);
+
+    const isUser = await checkUserLoggedIn();
+    if (isUser) {
+      setIsLogged(true);
+      return;
+    }
+
+    localStorage.setItem('token', '');
+    signMessage({ message });
+  }, [address, generateMessage, setIsLogged, signMessage]);
+
+  useEffect(() => {
+    if (address && !isLogged) {
+      signUserMessage();
+    }
+    if (!address && isLogged) {
+      handleLogOut();
+    }
+  }, [address, isLogged, signUserMessage]);
+
+  const handleLogOut = useCallback(async () => {
+    localStorage.setItem('token', '');
+    setIsLogged(false);
+    disconnect();
+  }, [disconnect, setIsLogged]);
+
+  const checkUserLoggedIn = async () => {
+    try {
+      const data = await me();
+      setUserData(data);
+      return data?.address === address;
+    } catch {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleLogin(data);
+    }
+    if (error) {
+      handleLogOut();
+    }
+  }, [data, error]);
+
+  const handleLogin = useCallback(
+    async (signature: string) => {
+      const res = await login(address, currentMessage, signature);
+      if (res?.accessToken) {
+        localStorage.setItem('token', res.accessToken);
+        setIsLogged(true);
+        if (!userData?.username) {
+          router.push('/my-profile/create');
+        }
+      } else {
+        handleLogOut();
+      }
+    },
+    [address, currentMessage, setIsLogged, handleLogOut]
+  );
+
   return (
-    <>
+    <header>
       <div
         className={cn(
-          'fixed top-0 left-0 right-0 flex items-center justify-between lg:px-[60px] xl:px-[104px] h-[120px] z-50 transition-colors',
-          isScrolled && 'bg-black/80 shadow-lg border-b border-primary/50'
+          'fixed top-0 left-0 right-0 px-4 lg:px-[60px] xl:px-[80px] lg:h-[100px] z-50 transition-colors',
+          (isScrolled || isMenuOpen) &&
+            'bg-black/80 shadow-lg border-b border-primary/50'
         )}
         ref={headerRef}
       >
-        <div className='flex items-center justify-between lg:gap-x-10 xl:gap-x-20'>
-          <Image alt='logo' className='w-[140px] h-[50px]' src={Logo} />
-          <div className='flex items-start justify-between gap-x-10 grow mt-4'>
-            <NavLink
-              active={pathname === '/start'}
-              href='/start'
-              key={1}
-              label='Start'
-            />
-            <NavLink
-              active={pathname === '/create'}
-              href='/create'
-              key={2}
-              label='Create'
-            />
-            <NavLink
-              active={pathname === '/how-it-works'}
-              href='/how-it-works'
-              key={3}
-              label='How it works?'
-            />
-            <NavLink
-              active={pathname === '/rewards'}
-              href='/rewards'
-              key={4}
-              label='Rewards'
+        <div className='flex items-center justify-between min-h-[70px] h-auto'>
+          <div className='flex items-center justify-between lg:gap-x-5 xl:gap-x-20'>
+            <Link href={'/start'}>
+              <Image
+                alt='logo'
+                className='w-[100px] h-auto lg:w-[140px] lg:h-[50px]'
+                src={Logo}
+              />
+            </Link>
+            <NavLinks
+              isShowHowToFun={isShowHowToFun}
+              rootClass='hidden lg:flex'
+              setShowHowToFun={setShowHowToFun}
             />
           </div>
+          <div className='flex items-center gap-x-4'>
+            <Button
+              className='text-xs lg:text-base xl:text-xl font-medium flex-center px-2 lg:px-4 h-[30px] lg:h-[40px] xl:h-[50px]'
+              onClick={async () => await open()}
+            >
+              {isConnected
+                ? `${address!.slice(0, 6)}...${address!.slice(-5)}`
+                : status === 'connecting' || status === 'reconnecting'
+                  ? 'Loading...'
+                  : 'Connect Wallet'}
+            </Button>
+            {isConnected && (
+              <ProfileDropdown>
+                <Button
+                  className='lg:w-[50px] lg:h-[50px] hidden lg:flex lg:bg-[#292D32]'
+                  variant={'ghost'}
+                >
+                  <ChevronDown className='w-[24px] h-auto shrink-0' />
+                </Button>
+              </ProfileDropdown>
+            )}
+            {isMenuOpen ? (
+              <X
+                className='w-[20px] h-auto text-white lg:hidden'
+                onClick={() => setMenuOpen(false)}
+                role='button'
+              />
+            ) : (
+              <Menu
+                className='w-[20px] h-auto text-white lg:hidden'
+                onClick={() => setMenuOpen(true)}
+                role='button'
+              />
+            )}
+          </div>
         </div>
-        <div className=''>
-          <Button className='text-xl flex-center h-[50px]'>
-            Connect Wallet
-          </Button>
-        </div>
+        {isMenuOpen && (
+          <NavLinks
+            isShowHowToFun={isShowHowToFun}
+            rootClass={cn('lg:hidden')}
+            setMenuOpen={setMenuOpen}
+            setShowHowToFun={setShowHowToFun}
+          />
+        )}
       </div>
-      <div className='h-[120px]' id='sentinel' />
-    </>
+      <div className='min-h-[70px] lg:h-[120px]' id='sentinel' />
+      <HowToHaveFunModal
+        isOpen={isShowHowToFun}
+        onOpenChange={() => setShowHowToFun(false)}
+      />
+    </header>
   );
 };
+
+// Keep the NavLinks component as it was
+const NavLinks = ({
+  setShowHowToFun,
+  isShowHowToFun,
+  rootClass,
+  setMenuOpen,
+}: {
+  rootClass?: string;
+  setShowHowToFun: (value: boolean) => void;
+  isShowHowToFun: boolean;
+  setMenuOpen?: (value: boolean) => void;
+}) => {
+  const pathname = usePathname();
+  const searchParam = useSearchParams();
+
+  return (
+    <div
+      className={cn(
+        'flex flex-col lg:flex-row items-start justify-between pt-4 pb-7 gap-y-7 lg:gap-x-5 xl:gap-x-7 grow mt-4',
+        rootClass
+      )}
+    >
+      <NavLink
+        active={pathname === '/start'}
+        href='/start'
+        key={1}
+        label='Start'
+      />
+      <NavLink
+        active={pathname === '/create'}
+        href='/create'
+        key={2}
+        label='Create'
+      />
+      <NavLink
+        active={searchParam.has('how-it-works') && isShowHowToFun}
+        href='?how-it-works'
+        key={3}
+        label='How works?'
+        onClickLink={() => {
+          if (setMenuOpen) {
+            setMenuOpen(false);
+          }
+          setShowHowToFun(!isShowHowToFun);
+        }}
+      />
+      {/* <NavLink
+        active={pathname === '/rewards'}
+        href='/rewards'
+        key={4}
+        label='Rewards'
+      /> */}
+      <NavLink
+        active={pathname === '/my-profile'}
+        href='/my-profile'
+        key={4}
+        label='My Profile'
+      />
+    </div>
+  );
+};
+
 export default Header;

@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
-const NavLink: React.FC<NavLinkType> = ({ active, href, label }) => {
+const NavLink: React.FC<NavLinkType> = ({
+  active,
+  href,
+  label,
+  onClickLink,
+}) => {
   const [width, setWidth] = useState(25);
   const labelRef = useRef<HTMLSpanElement | null>(null);
 
@@ -12,9 +17,12 @@ const NavLink: React.FC<NavLinkType> = ({ active, href, label }) => {
   }, [setWidth]);
 
   return (
-    <Link href={`${href}`} title={label}>
+    <Link href={`${href}`} onClick={onClickLink} title={label}>
       <div className='flex flex-col items-center gap-y-[10px]'>
-        <span className='text-2xl leading-none capitalize' ref={labelRef}>
+        <span
+          className='text-base xl:text-xl leading-none capitalize'
+          ref={labelRef}
+        >
           {label}
         </span>
         {active && (

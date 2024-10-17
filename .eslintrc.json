@@ -8,7 +8,8 @@
     "prettier",
     "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,7 +20,8 @@
   "plugins": [
     "react",
     "eslint-plugin-validate-jsx-nesting",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "rules": {
     "validate-jsx-nesting/no-invalid-jsx-nesting": "error",
@@ -43,6 +45,8 @@
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-ts-comment": "warn"
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off"
   }
 }

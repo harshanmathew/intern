@@ -37,5 +37,11 @@
     "Subdocument",
     "turso"
   ],
-  "notebook.formatOnSave.enabled": false
+  "notebook.formatOnSave.enabled": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

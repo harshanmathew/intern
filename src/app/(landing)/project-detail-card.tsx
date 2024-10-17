@@ -11,9 +11,14 @@ const ProjectDetailCard: React.FC<ProjectDetailCardType> = ({
 }) => {
   return (
     <Link href={`/start/${title.split(' ').join('-').toLowerCase()}`}>
-      <div className='w-full max-w-[250px] min-h-[470px] rounded-[10px] overflow-hidden bg-background border border-primary/50'>
-        <div className='relative w-full h-[244px]'>
-          <Image alt={title} className='object-cover' fill src={imgUrl} />
+      <div className='w-full max-w-[90%] mx-auto min-h-[470px] rounded-[10px] overflow-hidden bg-background border border-primary/50'>
+        <div className='relative w-full h-auto lg:h-[244px]'>
+          <Image
+            alt={title}
+            className='object-cover !relative'
+            fill
+            src={imgUrl}
+          />
         </div>
         <div className='p-3 pb-5'>
           <h5 className='text-base font-bold'>{title}</h5>

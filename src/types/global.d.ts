@@ -2,6 +2,7 @@ type NavLinkType = {
   href: string;
   label: string;
   active: boolean;
+  onClickLink?: () => void;
 };
 
 type TrendingProjectCardType = {
@@ -32,6 +33,7 @@ type HighlightItemType = {
 
 type BackHomeNavbarType = {
   navLink?: string;
+  navText?: string;
   children?: React.ReactNode;
 };
 
@@ -39,4 +41,27 @@ type TokenDetailBoxType = {
   title: string;
   value: string;
   isHighlight?: boolean;
+  className?: string;
+};
+
+type InputTypes = React.InputHTMLAttributes<HTMLInputElement> & {
+  inputClass?: string;
+  rootClass?: string;
+  labelIcon?: React.ReactNode;
+  labelClass?: string;
+  label?: string;
+  required?: boolean;
+  maxCharAllowed?: number;
+};
+
+type TextAreaTypes = Omit<
+  InputTypes,
+  React.InputHTMLAttributes<HTMLInputElement>
+> &
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+type UserProfileType = {
+  username: string;
+  walletAddress: string;
+  imgUrl: string;
 };
