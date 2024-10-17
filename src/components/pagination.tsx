@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 export function PaginationComp({ className }: { className?: string }) {
   return (
-    <Pagination className={cn('justify-end', className)}>
+    <Pagination className={cn('pl-4 justify-start lg:justify-end', className)}>
       <PaginationContent>
         <PaginationItem className='mr-2'>
           <PaginationPrevious className='w-auto h-auto' href='#' />

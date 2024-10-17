@@ -42,7 +42,7 @@ const ProfileForm = ({ action }: { action: string }) => {
     if (files && files[0]) {
       setFormData((prev) => ({
         ...prev,
-        image: URL.createObjectURL(files[0]),
+        image: files[0] ? URL.createObjectURL(files[0]) : prev.image,
       }));
     }
   };
@@ -73,7 +73,7 @@ const ProfileForm = ({ action }: { action: string }) => {
             image={formData.image}
             imgWrapperClass='w-[180px] h-[180px]'
             onImageChange={handleImageChange}
-            rootClass='mt-7 block mx-auto'
+            rootClass='mt-7 block max-w-fit mx-auto grow-0'
           />
           <Input
             label='Username'

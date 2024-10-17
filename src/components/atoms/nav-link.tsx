@@ -19,7 +19,10 @@ const NavLink: React.FC<NavLinkType> = ({
   return (
     <Link href={`${href}`} onClick={onClickLink} title={label}>
       <div className='flex flex-col items-center gap-y-[10px]'>
-        <span className='text-2xl leading-none capitalize' ref={labelRef}>
+        <span
+          className='text-base xl:text-xl leading-none capitalize'
+          ref={labelRef}
+        >
           {label}
         </span>
         {active && (

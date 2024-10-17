@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import HowToHaveFunModal from '../how-to-have-fun.modal';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePersonStore } from '@/hooks/usePersonStore';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
@@ -42,7 +42,6 @@ const Header = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log({ entry });
           if (entry.isIntersecting) {
             setIsScrolled(false); // When the sentinel is visible
           } else {
@@ -138,14 +137,14 @@ const Header = () => {
     <header>
       <div
         className={cn(
-          'fixed top-0 left-0 right-0 px-4 lg:px-[60px] xl:px-[104px] lg:h-[100px] z-50 transition-colors',
+          'fixed top-0 left-0 right-0 px-4 lg:px-[60px] xl:px-[80px] lg:h-[100px] z-50 transition-colors',
           (isScrolled || isMenuOpen) &&
             'bg-black/80 shadow-lg border-b border-primary/50'
         )}
         ref={headerRef}
       >
         <div className='flex items-center justify-between min-h-[70px] h-auto'>
-          <div className='flex items-center justify-between lg:gap-x-10 xl:gap-x-20'>
+          <div className='flex items-center justify-between lg:gap-x-5 xl:gap-x-20'>
             <Link href={'/start'}>
               <Image
                 alt='logo'
@@ -159,9 +158,9 @@ const Header = () => {
               setShowHowToFun={setShowHowToFun}
             />
           </div>
-          <div className='flex gap-x-4'>
+          <div className='flex items-center gap-x-4'>
             <Button
-              className='text-xs lg:text-xl font-medium flex-center px-2 lg:px-4 h-[40px] lg:h-[50px]'
+              className='text-xs lg:text-base xl:text-xl font-medium flex-center px-2 lg:px-4 h-[30px] lg:h-[40px] xl:h-[50px]'
               onClick={async () => await open()}
             >
               {isConnected
@@ -170,6 +169,16 @@ const Header = () => {
                   ? 'Loading...'
                   : 'Connect Wallet'}
             </Button>
+
+            <ProfileDropdown>
+              <Button
+                className='lg:w-[50px] lg:h-[50px] hidden lg:flex lg:bg-[#292D32]'
+                variant={'ghost'}
+              >
+                <ChevronDown className='w-[24px] h-auto shrink-0' />
+              </Button>
+            </ProfileDropdown>
+
             {isMenuOpen ? (
               <X
                 className='w-[20px] h-auto text-white lg:hidden'
@@ -221,7 +230,7 @@ const NavLinks = ({
   return (
     <div
       className={cn(
-        'flex flex-col lg:flex-row items-start justify-between pt-4 pb-7 gap-y-7 lg:gap-x-10 grow mt-4',
+        'flex flex-col lg:flex-row items-start justify-between pt-4 pb-7 gap-y-7 lg:gap-x-5 xl:gap-x-7 grow mt-4',
         rootClass
       )}
     >
@@ -241,7 +250,7 @@ const NavLinks = ({
         active={searchParam.has('how-it-works') && isShowHowToFun}
         href='?how-it-works'
         key={3}
-        label='How it works?'
+        label='How works?'
         onClickLink={() => {
           if (setMenuOpen) {
             setMenuOpen(false);
@@ -249,11 +258,17 @@ const NavLinks = ({
           setShowHowToFun(!isShowHowToFun);
         }}
       />
-      <NavLink
+      {/* <NavLink
         active={pathname === '/rewards'}
         href='/rewards'
         key={4}
         label='Rewards'
+      /> */}
+      <NavLink
+        active={pathname === '/my-profile'}
+        href='/my-profile'
+        key={4}
+        label='My Profile'
       />
     </div>
   );

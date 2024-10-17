@@ -34,6 +34,8 @@ import {
 } from '@/components/ui/form';
 import isAuth from '@/components/isAuth';
 import { useLaunchToken } from '@/hooks/useLaunchToken';
+import { TokeDropdown } from '@/components/atoms/token-dropdown';
+// import isAuth from '@/components/isAuth';
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -171,9 +173,9 @@ const CreateProjectForm = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Token Name</FormLabel>
                   <FormControl>
                     <Input
+                      label='Token Name'
                       labelIcon={<TokenNameIcon className='w-[20px] h-auto' />}
                       rootClass='grow'
                       {...field}
@@ -188,9 +190,9 @@ const CreateProjectForm = () => {
               name='ticker'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Ticker</FormLabel>
                   <FormControl>
                     <Input
+                      label='Ticker'
                       labelIcon={<TickerIcon className='w-[20px] h-auto' />}
                       rootClass='grow mt-5'
                       {...field}
@@ -205,9 +207,9 @@ const CreateProjectForm = () => {
               name='tokenSupply'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Token Supply</FormLabel>
                   <FormControl>
                     <Input
+                      label='Token Supply'
                       labelIcon={
                         <TokenSupplyIcon className='w-[20px] h-auto' />
                       }
@@ -233,10 +235,10 @@ const CreateProjectForm = () => {
           name='description'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea
                   inputClass='h-full max-h-[240px]'
+                  label='Description'
                   labelIcon={<DescriptionIcon className='w-[20px] h-auto' />}
                   rootClass='mt-7 lg:mt-10'
                   {...field}
@@ -267,7 +269,7 @@ const CreateProjectForm = () => {
                       value='beginner'
                     />
                     <Label
-                      className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                      className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-black peer-data-[state=checked]:border-secondary cursor-pointer'
                       htmlFor='beginner'
                     >
                       <span className='text-sm lg:text-lg'>Beginner</span>
@@ -286,7 +288,7 @@ const CreateProjectForm = () => {
                       value='pro'
                     />
                     <Label
-                      className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                      className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-black peer-data-[state=checked]:border-secondary cursor-pointer'
                       htmlFor='pro'
                     >
                       <span className='text-sm lg:text-lg'>Pro</span>
@@ -311,32 +313,36 @@ const CreateProjectForm = () => {
           name='initialBuyAmount'
           render={({ field }) => (
             <FormItem className='relative mt-7'>
-              <FormLabel>Initial Buy</FormLabel>
-              <FormControl>
-                <Input
-                  inputClass='placeholder:text-white/50 h-[80px] lg:h-[100px] pb-[30px] pl-3 lg:pl-6 pr-[15%] pt-2'
-                  labelClass='text-xs lg:text-xl'
-                  labelIcon={<InitialBuyIcon className='w-[20px] h-auto' />}
-                  placeholder='Enter the amount'
-                  required={false}
-                  rootClass='grow'
-                  type='number'
-                  {...field}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    field.onChange(value === '' ? '' : Number(value));
-                  }}
-                  value={field.value === 0 ? '' : field.value}
-                />
-              </FormControl>
-              <span className='absolute top-1 text-[10px] lg:text-sm left-[50%] lg:left-[25%] text-white/50'>
-                Buy your own token
-              </span>
-              <span className='absolute left-3 lg:left-6 bottom-[20px] text-[10px] lg:text-xs text-white/50 mt-1'>
-                Balance: -- BONE
-              </span>
-              <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
-                BONE <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
+              <div className='relative'>
+                <FormControl>
+                  <Input
+                    inputClass='placeholder:text-white/50 h-[80px] lg:h-[100px] pb-[30px] pl-3 lg:pl-6 pr-[15%] pt-2'
+                    label='Initial Buy'
+                    labelClass='text-xs lg:text-xl'
+                    labelIcon={<InitialBuyIcon className='w-[20px] h-auto' />}
+                    placeholder='Enter the amount'
+                    required={false}
+                    rootClass='grow'
+                    type='number'
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value === '' ? '' : Number(value));
+                    }}
+                    value={field.value === 0 ? '' : field.value}
+                  />
+                </FormControl>
+                <span className='absolute top-1 text-[10px] lg:text-sm left-[50%] lg:left-[25%] text-white/50'>
+                  Buy your own token
+                </span>
+                <span className='absolute left-3 lg:left-6 bottom-[20px] text-[10px] lg:text-xs text-white/50 mt-1'>
+                  Balance: -- BONE
+                </span>
+                <TokeDropdown>
+                  <div className='absolute text-[10px] lg:text-3xl flex items-center right-3 lg:right-7 bottom-[30px] cursor-pointer'>
+                    BONE <BoneIcon className='ml-2 lg:ml-5 w-[30px] h-auto' />
+                  </div>
+                </TokeDropdown>
               </div>
               <FormMessage />
             </FormItem>
@@ -386,9 +392,9 @@ const CreateProjectForm = () => {
               name='twitterLink'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Twitter Link (Optional)</FormLabel>
                   <FormControl>
                     <Input
+                      label='Twitter Link (Optional)'
                       labelIcon={<TwitterIcon className='w-[20px] h-auto' />}
                       placeholder='Add Twitter Link'
                       rootClass='grow mt-8'
@@ -405,9 +411,9 @@ const CreateProjectForm = () => {
               name='telegramLink'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telegram Link (Optional)</FormLabel>
                   <FormControl>
                     <Input
+                      label='Telegram Link (Optional)'
                       labelIcon={<TelegramIcon className='w-[20px] h-auto' />}
                       placeholder='Add Telegram Link'
                       rootClass='grow mt-5'
@@ -424,9 +430,9 @@ const CreateProjectForm = () => {
               name='websiteLink'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Website Link (Optional)</FormLabel>
                   <FormControl>
                     <Input
+                      label='Website Link (Optional)'
                       labelIcon={<WebsiteIcon className='w-[20px] h-auto' />}
                       placeholder='Add Website Link'
                       rootClass='grow mt-5'
@@ -459,7 +465,7 @@ const CreateProjectForm = () => {
                           value='yes'
                         />
                         <Label
-                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-black peer-data-[state=checked]:border-secondary cursor-pointer'
                           htmlFor='donateYes'
                         >
                           <span className='text-sm lg:text-lg'>
@@ -474,7 +480,7 @@ const CreateProjectForm = () => {
                           value='no'
                         />
                         <Label
-                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-secondary-foreground cursor-pointer'
+                          className='flex justify-between items-center p-4 rounded-md border border-primary/50 peer-data-[state=checked]:bg-secondary peer-data-[state=checked]:text-black peer-data-[state=checked]:border-secondary cursor-pointer'
                           htmlFor='donateNo'
                         >
                           <span className='text-sm lg:text-lg'>
